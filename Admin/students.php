@@ -1,0 +1,411 @@
+<?php
+ob_start();
+$pageTitle = "Students";
+session_start();
+if(isset($_SESSION['username'])){ 
+	include 'init.php';
+$nav = isset($_GET['nav'])? $_GET['nav']: $nav = 'Main'; 
+if($nav == 'Main'){
+	//We can add to the querry (WHERE groupID != 1 as no the the Admin included)
+	     $students = getAllFrom("*", 'users', 'WHERE Rank != 1' , 'id');
+						if(!empty($students)){
+	?>
+
+	<div class="container">
+		<h1 class="text-center">Manage Students</h1>
+	<a href='students.php?nav=Add' class="btn btn-primary">
+	 <i class="fas fa-user-plus"></i> New Student</a>
+	<div class="table-responsive">
+		<table class="table table-bordered text-center main-table">
+			<tr>
+				<th class="text-uppercase">#id</th>
+				<th class="text-capitalize">full name</th>
+				<th class="text-capitalize">class</th>
+				<th class="text-capitalize">email</th>
+				<th class="text-capitalize">control</th>
+			</tr>
+				<?php 
+					foreach ($students as $stu) {
+						 echo "<tr>";
+						 echo "<td>" . $stu['id'] . "</td>";
+						 echo "<td>" . $stu['fullname'] . "</td>";
+						 echo "<td>" . $stu['class'] . "</td>";
+						 echo "<td>" . $stu['Email'] . "</td>";
+						 echo "<td>" . "<a href='students.php?nav=Edit&userid=" . 
+						 $stu['id'] .  "' class='btn btn-success'> <i class=\"fas fa-user-edit\"></i> Edit</a> " . 
+					"<a href='students.php?nav=Delete&userid=" . $stu['id'] . "' class='btn btn-danger confirm'> <i class=\"fas fa-user-slash\"></i> Delete</a>"; 
+
+						 echo "</tr>";
+					}
+
+			?>
+			
+		</table>
+	</div>
+<?php } else{
+		echo "<div class='alert alert-info'> There is no Students to show </div>";
+} ?>
+     </div>
+<?php } elseif($nav == 'Add'){ ?>
+
+	<h1 class="text-center">Add New Member</h1>
+	<div class="container">
+		<form class="form-horizontal form-lg" action="?do=Insert" method="POST">
+			<div class="form-group">
+				<!--Start Username-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Username
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="The user will login with">
+					</div>
+				</div>
+				<!--End Username-->
+				<!--Start Password-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Password
+				</label>
+				<div class="col-sm-10 col-md-6">
+				<input type="password" name="password" class="form-control password" placeholder="Enter Strong Password"
+				autocomplete="new-password" required="required" > <i class="fas fa-low-vision"></i>
+				</div>
+				</div>
+				<!--End Password-->
+				<!--Start Email-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Email
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="email" name="email" class="form-control" autocomplete="off" 
+						required="required" placeholder="Enter a Valid Email">
+					</div>
+				</div>
+				<!--End Email-->
+				<!--Start FullName-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Full-Name
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required" placeholder="Your Full Name that Appear in Your Profile">
+					</div>
+				</div>
+				<!--End FullName-->
+				<!--Start Submit-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> 
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="submit" value="Add" class="btn btn-primary btn-lg">
+					</div>
+				</div>
+				<!--End FullName-->
+				
+			</div>
+		</form>
+	</div>
+
+<?php } elseif ($do == "Edit") { //Edit Page
+	//Edit from the id with short if condition
+	$userid = isset($_GET['userid']) 
+		&& is_numeric($_GET['userid'])? 
+		intval($_GET['userid']): 0; //That is our user that we would deal with
+		//Now We get the Record from database
+		$stmt = $connect->prepare("SELECT * from `shop-users`
+			WHERE UserID = ? 
+			LIMIT 1"); //get this user
+		$stmt->execute(array($userid));
+		$row = $stmt->fetch();
+		$count = $stmt-> rowCount();
+		//if We have a record then it must be > 0
+		if($count > 0 ){ ?>
+			<h1 class="text-center">Edit Profile</h1>
+	<div class="container">
+		<form class="form-horizontal form-lg" action="?do=Update" method="POST">
+			<div class="form-group">
+				<input type="hidden" name="userid" value="<?php echo $userid; ?>">
+				<!--Start Username-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Username
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="username" class="form-control" autocomplete="off" required="required" 
+						value="<?php echo $row['username']; ?>">
+					</div>
+				</div>
+				<!--End Username-->
+				<!--Start Password-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Password
+				</label>
+					<input type="hidden" value="<?php 
+					echo $row['Password']; ?>" name="old-pass">
+					<div class="col-sm-10 col-md-6">
+						<input type="password" name="new-pass" class="form-control" placeholder="Leave it blank if you don't want to change Your Password" 
+						autocomplete="new-password">
+					</div>
+				</div>
+				<!--End Password-->
+				<!--Start Email-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Email
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="email" name="email" class="form-control" autocomplete="off" 
+						required="required"
+						value="<?php echo $row['Email']; ?>">
+					</div>
+				</div>
+				<!--End Email-->
+				<!--Start FullName-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Full-Name
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required"
+						value="<?php echo $row['Full-Name']; ?>">
+					</div>
+				</div>
+				<!--End FullName-->
+				<!--Start Submit-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label"> 
+				</label>
+					<div class="col-sm-10 col-md-6">
+						<input type="submit" value="save" class="btn btn-primary btn-lg">
+					</div>
+				</div>
+				<!--End Submit-->
+				
+			</div>
+		</form>
+	</div> <?php
+		} else{
+			$errorMsg =  "Wrong There is no such user";
+			redirectHome($errorMsg);
+		}
+	
+        } 
+elseif ($do == "Update") {
+	if($_SERVER['REQUEST_METHOD'] === "POST"){
+		echo "<h1 class='text-center'>Update </h1>"; 
+		//Get Variables From the Form
+		$id = $_POST['userid'];
+		$username = $_POST['username'];
+		$email = $_POST['email'];
+		$full = $_POST['full-name'];
+		//Password Trick
+		$pass = empty($_POST['new-pass'])? $_POST['old-pass'] :sha1($_POST['new-pass']);
+		//Validate The Form
+		$formErrors = [];
+
+		if(empty($username)){
+			$formErrors[] = "Username can't <strong>empty</strong>";
+		} 
+		if (empty($email)) {
+			$formErrors[] = "Username can't <strong>empty</strong>";
+		}
+		if (empty($full)) {
+			$formErrors[] = "Full Name can't <strong>empty</strong>";
+		} 
+		if (strlen($username) < 4) {
+			$formErrors[] = "Full Name can't be smaller than<strong> 4 Characters</strong>";
+		}
+		if (strlen($username) > 14) {
+			$formErrors[] = "Full Name can't be larger than<strong> 14 Characters</strong>";
+		}
+	     	
+			//Database Query
+			//Check if There is no errors 
+			if(empty($formErrors)){
+               $myCheck = $connect->prepare("SELECT * FROM `shop-users`
+               	WHERE username = ? AND UserID != ?");
+               $myCheck->execute(array($username, $id));
+               $myCheck->fetch();
+               $check = $myCheck->rowCount();
+	            if($check == 1){
+		             $error =  "<div class='container'>
+		                        <div class='alert alert-danger'>The username is already existed</div>";
+		             redirectHome($error, 'back');
+		         } else{
+		         	//Update Database with this info
+			     $stmt = $connect->prepare("UPDATE `shop-users` 
+				SET username = ? , Email = ? ,  `Full-Name` = ? where UserID = ?");
+		     	$stmt->execute(array($username, $email, $full, $id));
+		     	//Echo Success Message
+		     	$success =  " <div class='container'>
+		     	              <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Updated </div>";
+		     	redirectHome($success);
+		         }
+		    
+			} else{
+				//Get The Errors
+	          foreach ($formErrors as $error) {
+				echo "<div class='alert alert-danger'>"  . 
+				$error . "</div>";
+			}
+			$myError = "<div class='alert alert-success'>Please Refill The Form</div>";
+			redirectHome($myError, 'back');
+			}
+			
+		
+	
+	} else{
+		header('location: members.php');
+	}
+} 
+
+elseif ($do == "Insert") { //Insert Page
+       if($_SERVER['REQUEST_METHOD'] === "POST"){
+		echo "<h1 class='text-center'>Insert </h1>"; 
+		//Get Variables From the Form
+		$username = $_POST['username'];
+		$email = $_POST['email'];
+		$full = $_POST['full-name'];
+		$pass = $_POST['password'];
+		$hashedPass = sha1($pass);
+		//Validate The Form
+		$formErrors = [];
+
+		if(empty($username)){
+			$formErrors[] = "Username can't <strong>empty</strong>";
+		} 
+		if (empty($email)) {
+			$formErrors[] = "Username can't <strong>empty</strong>";
+		}
+		if (empty($full)) {
+			$formErrors[] = "Full Name can't <strong>empty</strong>";
+		} 	
+		if (empty($pass)) {
+			$formErrors[] = "Password can't <strong>empty</strong>";
+		} 
+		if (strlen($username) < 4) {
+			$formErrors[] = "Full Name can't be smaller than<strong> 4 Characters</strong>";
+		}
+		if (strlen($full) > 14) {
+			$formErrors[] = "Full Name can't be larger than<strong> 14 Characters</strong>";
+		} 
+		//Database Query
+			//Check if There is no errors 
+			if(empty($formErrors)){
+				$check = checkItem('username','`shop-users`', $username);
+	            if($check == 1){
+		             $error =  "<div class='container'>
+		                        <div class='alert alert-danger'>The username is already existed</div>";
+		             redirectHome($error, 'back');
+	            } else{
+	             	//Insert this info into Database 
+				   	$stmt =  $connect->prepare("INSERT INTO `shop-users`(username, Password, Email, `Full-Name`,RegStatus ,date) 
+				   		VALUES (:user, :pass, :mail, :full, 1 ,now())");
+				   	$stmt->execute(array(
+				   		':user' => $username,
+				   		':pass' => $hashedPass,
+				   		':mail' => $email,
+				   		':full' => $full
+				   	));
+			     	//Echo Success Message
+			     	$success = "<div class='container'>
+			     	            <div class='alert alert-success'>" .  $stmt->rowCount() . " Member Added</div>";
+			     	redirectHome($success, 'back');
+				}
+		    
+			} else{
+				//Get The Errors
+				echo "<div class='container'>";
+	          foreach ($formErrors as $error) {
+				echo "<div class='alert alert-danger'>"  . 
+				$error . "</div>";
+			 }
+				$editMsg = "<div class='alert alert-info'> Please refill the inputs to complete the Process</div>";
+				redirectHome($editMsg, 'back' , 5);
+
+			}
+			
+		
+
+      } else{
+      	$error = " <div class='container'>
+      	            <div class='alert alert-danger'>You are not Allowed to browse this Page</div>
+      	            ";
+		redirectHome($error, 3);
+	}
+}
+elseif ($do == "Delete") { //Delete Page ?>
+
+			   <div class="container">
+				<h1 class="text-center">Delete Member</h1>
+			
+ <?php
+		$userid = isset($_GET['userid']) 
+		&& is_numeric($_GET['userid'])? 
+		intval($_GET['userid']): 0; //That is our user that we would deal with
+		//Now We get the Record from database
+		$check = checkItem( 'UserID' , '`shop-users`', $userid);
+		//if We have a record then it must be > 0
+		if($check > 0){ // User Existed
+			//Delete Query
+				$stmt = $connect->prepare("DELETE FROM `shop-users` WHERE
+					                       UserID = :user");
+				$stmt->bindParam(":user" , $userid);
+				$stmt->execute();
+				//Echo Success Message
+			 $success =  "<div class='container'>
+			                <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Deleted </div> </div>";
+			 redirectHome($success);
+		} else{
+			$error = " <div class='container'>
+			               <div class='alert alert-danger'>There is No Such User</div> 
+			            ";
+			redirectHome($error, 'back');
+		}
+} 
+elseif ($do == "Active") { //Activate Page ?>
+	          <div class="container">
+				<h1 class="text-center">Activate Member</h1>
+			
+ <?php
+		$userid = isset($_GET['userid']) 
+		&& is_numeric($_GET['userid'])? 
+		intval($_GET['userid']): 0; //That is our user that we would deal with
+		//Now We get the Record from database
+		$check = checkItem( 'UserID' , '`shop-users`', $userid);
+		//if We have a record then it must be > 0
+		if($check > 0){ // User Existed
+			//Delete Query
+				$stmt = $connect->prepare("	UPDATE `shop-users`SET RegStatus = 1 WHERE  UserID = :user");
+				$stmt->bindParam(":user" , $userid);
+				$stmt->execute();
+				//Echo Success Message
+			 $success =  "<div class='container'>
+			                <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Activated </div> </div>";
+			 redirectHome($success, 'back');
+		} else{
+			$error = " <div class='container'>
+			               <div class='alert alert-danger'>There is No Such User</div> 
+			            ";
+			redirectHome($error, 'back');
+		}
+	
+} else{
+	$error = " 
+	            <div class='container'>
+	            <h1 class='text-center'>Error 404</h1>
+	            <div class='alert alert-danger'>There's no Page With this Name</div>
+	            ";
+			redirectHome($error);
+}
+	include $templates . 'footer.php';
+} else{
+	header('location:index.php');
+	exit(); //Stop the Script
+	 //Redirect To the Login Page if there is no  Session
+}
+ob_end_flush();
+?>

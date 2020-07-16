@@ -1,0 +1,107 @@
+/*Start Main Rules*/
+
+body {
+    padding-top: 71px;
+}
+
+.navbar {
+    border-radius: 0;
+    margin-bottom: 0
+}
+
+.nav>li>a,
+.navbar-brand {
+    padding: 15px 12px
+}
+
+
+/*End Main Rules*/
+
+
+/*Start index Page*/
+
+
+/*Start Login Form*/
+
+.login {
+    width: 500px;
+    margin: 100px auto;
+}
+
+.login h4,
+h1 {
+    color: #333;
+    font-family: 'Lobster', cursive;
+    margin-bottom: 20px;
+    font-size: 65px;
+    font-weight: bold;
+    color: #333
+}
+
+.login .form-control {
+    background-color: #f7f4f4
+}
+
+.login input {
+    margin-bottom: 10px;
+}
+
+.login .btn {
+    background-color: #008dde
+}
+
+
+/*End Index Page*/
+
+
+/*Start Dashboard Page*/
+
+.home-stats .stat {
+    color: #fff;
+    border: 1px solid #CCC;
+    padding: 20px;
+    font-size: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.home-stats .stat a {
+    color: #fff;
+    position: relative;
+}
+
+.home-stats .stat a:hover {
+    text-decoration: none
+}
+
+.home-stats i {
+    font-size: 70px;
+    position: absolute;
+    top: 55px;
+    right: 26px;
+}
+
+.home-stats .st-students {
+    background-color: #eb4d4b
+}
+
+.home-stats .st-quizes {
+    background-color: #4834d4
+}
+
+.home-stats .stat h3 {
+    color: #fdcb6e;
+    font-family: Lobster;
+    margin-top: 7px;
+}
+
+.home-stats .stat span {
+    display: block;
+    font-size: 50px;
+    color: #2d3436;
+    font-family: Lobster;
+    padding-right: 17%
+}
+
+
+/*End Dashboard Page*/
