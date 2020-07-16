@@ -15,7 +15,11 @@ if(isset($_SESSION['username'])){
 							<h3 class="text-capitalize">students</h3>
 							<div class="info">
 							<i class="fas fa-user-graduate"></i>
-							<span class='pull-right'>200</span>
+							<span class='pull-right'>
+							<?php 
+							echo checkRecord('*', 'users' , "WHERE Rank != 1");
+							?>
+							</span>
 							</div>
 						</a>
 					</div>

@@ -6,7 +6,6 @@ if(isset($_SESSION['username'])){
 	include 'init.php';
 $nav = isset($_GET['nav'])? $_GET['nav']: $nav = 'Main'; 
 if($nav == 'Main'){
-	//We can add to the querry (WHERE groupID != 1 as no the the Admin included)
 	     $students = getAllFrom("*", 'users', 'WHERE Rank != 1' , 'id');
 						if(!empty($students)){
 	?>
@@ -48,9 +47,9 @@ if($nav == 'Main'){
      </div>
 <?php } elseif($nav == 'Add'){ ?>
 
-	<h1 class="text-center">Add New Member</h1>
+	<h1 class="text-center">Add New Student</h1>
 	<div class="container">
-		<form class="form-horizontal form-lg" action="?do=Insert" method="POST">
+		<form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
 			<div class="form-group">
 				<!--Start Username-->
 				<div class="form-group">
@@ -58,7 +57,7 @@ if($nav == 'Main'){
 					Username
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="The user will login with">
+						<input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="Username required to login">
 					</div>
 				</div>
 				<!--End Username-->
@@ -68,11 +67,22 @@ if($nav == 'Main'){
 					Password
 				</label>
 				<div class="col-sm-10 col-md-6">
-				<input type="password" name="password" class="form-control password" placeholder="Enter Strong Password"
-				autocomplete="new-password" required="required" > <i class="fas fa-low-vision"></i>
+				<input type="password" name="password" class="form-control password" placeholder="Enter Password"
+				autocomplete="new-password" required="required" >
 				</div>
 				</div>
 				<!--End Password-->
+				<!--Start Confirm Password-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Confirm Password
+				</label>
+				<div class="col-sm-10 col-md-6">
+				<input type="password" name="password-con" class="form-control password" placeholder="Confirm Password"
+				autocomplete="new-password" required="required">
+				</div>
+				</div>
+				<!--End Confirm Password-->
 				<!--Start Email-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
@@ -80,77 +90,98 @@ if($nav == 'Main'){
 				</label>
 					<div class="col-sm-10 col-md-6">
 						<input type="email" name="email" class="form-control" autocomplete="off" 
-						required="required" placeholder="Enter a Valid Email">
+						required="required" placeholder="Email of the User">
 					</div>
 				</div>
 				<!--End Email-->
 				<!--Start FullName-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
-					Full-Name
+					Full Names
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required" placeholder="Your Full Name that Appear in Your Profile">
+						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required" placeholder="Student Full Name">
 					</div>
 				</div>
 				<!--End FullName-->
+				<!--Start Class-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Class
+				    </label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="class" class="form-control" autocomplete="off" required="required" placeholder="Enter the Class Name">
+					</div>
+				</div>
+				<!--End Class-->
 				<!--Start Submit-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label"> 
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="submit" value="Add" class="btn btn-primary btn-lg">
+						<input type="submit" value="Add Student" class="btn btn-primary btn-lg">
 					</div>
 				</div>
-				<!--End FullName-->
+				<!--End Submit-->
 				
 			</div>
 		</form>
 	</div>
 
-<?php } elseif ($do == "Edit") { //Edit Page
-	//Edit from the id with short if condition
+<?php } elseif ($nav == "Edit") { 
 	$userid = isset($_GET['userid']) 
 		&& is_numeric($_GET['userid'])? 
-		intval($_GET['userid']): 0; //That is our user that we would deal with
-		//Now We get the Record from database
-		$stmt = $connect->prepare("SELECT * from `shop-users`
-			WHERE UserID = ? 
-			LIMIT 1"); //get this user
-		$stmt->execute(array($userid));
-		$row = $stmt->fetch();
-		$count = $stmt-> rowCount();
-		//if We have a record then it must be > 0
-		if($count > 0 ){ ?>
-			<h1 class="text-center">Edit Profile</h1>
-	<div class="container">
-		<form class="form-horizontal form-lg" action="?do=Update" method="POST">
-			<div class="form-group">
-				<input type="hidden" name="userid" value="<?php echo $userid; ?>">
+		intval($_GET['userid']): 0; 
+		$stmt = $connect->prepare("SELECT * FROM users 
+		WHERE id = {$userid}
+		 LIMIT 1");
+		$stmt->execute();
+		$stuInfo = $stmt->fetch();
+	    $count   = $stmt-> rowCount();
+		if($count > 0 ){ 
+			if($stuInfo['Rank'] != 1){
+			 echo "<h1 class=\"text-center\">Edit Student</h1>";
+			} else{
+			echo "<h1 class=\"text-center\">Edit Admin</h1>";
+			}?>
+				<div class="container">
+					<form class="form-horizontal form-lg" action="?nav=Update" method="POST">
+					<div class="form-group">
+					<input type="hidden" name="userid" value="<?php echo $userid; ?>">
 				<!--Start Username-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
 					Username
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="text" name="username" class="form-control" autocomplete="off" required="required" 
-						value="<?php echo $row['username']; ?>">
+						<input type="text" name="username" class="form-control" autocomplete="off" required="required" placeholder="Username required to login"
+						value="<?php echo $stuInfo['username']?>">
 					</div>
 				</div>
 				<!--End Username-->
 				<!--Start Password-->
+				<input type="hidden" name="password" value="<?php echo $stuInfo['password']?>">
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
 					Password
 				</label>
-					<input type="hidden" value="<?php 
-					echo $row['Password']; ?>" name="old-pass">
-					<div class="col-sm-10 col-md-6">
-						<input type="password" name="new-pass" class="form-control" placeholder="Leave it blank if you don't want to change Your Password" 
-						autocomplete="new-password">
-					</div>
+				<div class="col-sm-10 col-md-6">
+				<input type="password" name="new-pass" class="form-control password" placeholder="Enter Here New Password"
+				autocomplete="new-password" >
+				</div>
 				</div>
 				<!--End Password-->
+				<!--Start Confirm Password-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Confirm Password
+				</label>
+				<div class="col-sm-10 col-md-6">
+				<input type="password" name="password-con" class="form-control password" placeholder="Confirm New Password"
+				autocomplete="new-password" >
+				</div>
+				</div>
+				<!--End Confirm Password-->
 				<!--Start Email-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
@@ -158,28 +189,42 @@ if($nav == 'Main'){
 				</label>
 					<div class="col-sm-10 col-md-6">
 						<input type="email" name="email" class="form-control" autocomplete="off" 
-						required="required"
-						value="<?php echo $row['Email']; ?>">
+						required="required" placeholder="Email of the User"
+						value="<?php echo $stuInfo['Email']?>">
 					</div>
 				</div>
 				<!--End Email-->
 				<!--Start FullName-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label">
-					Full-Name
+					Full Name
 				</label>
+				
 					<div class="col-sm-10 col-md-6">
-						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required"
-						value="<?php echo $row['Full-Name']; ?>">
+						<input type="text" name="full-name" class="form-control" autocomplete="off" required="required" placeholder="Student Full Name" value="<?php echo $stuInfo['fullname']?>">
 					</div>
 				</div>
 				<!--End FullName-->
+				<!--Start Class-->
+				<div class="form-group">
+					<label class="col-sm-2 control-label">
+					Class
+				    </label>
+					<div class="col-sm-10 col-md-6">
+						<input type="text" name="class" class="form-control" autocomplete="off" required="required" placeholder="Enter the Class Name" value="<?php echo $stuInfo['class'] ?>">
+					</div>
+				</div>
+				<!--End Class-->
 				<!--Start Submit-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label"> 
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="submit" value="save" class="btn btn-primary btn-lg">
+						<input type="submit" value="Update Info" class="btn btn-primary btn-lg">
+						<?php
+						if($stuInfo['Rank'] != 1){?>
+			              <a href='students.php?nav=Delete&userid=<?php echo $userid ?>' class='btn btn-danger btn-lg confirm'> Delete Student</a>
+			             <?php } ?>
 					</div>
 				</div>
 				<!--End Submit-->
@@ -188,61 +233,64 @@ if($nav == 'Main'){
 		</form>
 	</div> <?php
 		} else{
-			$errorMsg =  "Wrong There is no such user";
-			redirectHome($errorMsg);
+			header('location: students.php');
 		}
 	
         } 
-elseif ($do == "Update") {
+elseif ($nav == "Update") {
 	if($_SERVER['REQUEST_METHOD'] === "POST"){
 		echo "<h1 class='text-center'>Update </h1>"; 
 		//Get Variables From the Form
-		$id = $_POST['userid'];
-		$username = $_POST['username'];
-		$email = $_POST['email'];
-		$full = $_POST['full-name'];
-		//Password Trick
-		$pass = empty($_POST['new-pass'])? $_POST['old-pass'] :sha1($_POST['new-pass']);
+		$id         = $_POST['userid'];
+		$username   = $_POST['username'];
+		$email      = $_POST['email'];
+		$full       = $_POST['full-name'];
+		$class      = $_POST['class'];
+		$pass = empty($_POST['new-pass'])? $_POST['password'] :sha1($_POST['new-pass']);
 		//Validate The Form
 		$formErrors = [];
-
+		if(!empty($_POST['new-pass'])){
+			if($_POST['new-pass'] != $_POST['password-con']){
+				$formErrors[] = "The Two Passwords are <strong> Not </strong> Identical";
+			}
+		}
 		if(empty($username)){
-			$formErrors[] = "Username can't <strong>empty</strong>";
+			$formErrors[] = "Username can't be <strong> empty </strong>";
 		} 
 		if (empty($email)) {
-			$formErrors[] = "Username can't <strong>empty</strong>";
+			$formErrors[] = "Username can't be <strong> empty </strong>";
 		}
 		if (empty($full)) {
-			$formErrors[] = "Full Name can't <strong>empty</strong>";
+			$formErrors[] = "Full Name can't be <strong> empty </strong>";
 		} 
-		if (strlen($username) < 4) {
-			$formErrors[] = "Full Name can't be smaller than<strong> 4 Characters</strong>";
-		}
-		if (strlen($username) > 14) {
-			$formErrors[] = "Full Name can't be larger than<strong> 14 Characters</strong>";
+		if (strlen($username) < 2) {
+			$formErrors[] = "Full Name can't be smaller than <strong> 2 Characters</strong>";
 		}
 	     	
 			//Database Query
 			//Check if There is no errors 
 			if(empty($formErrors)){
-               $myCheck = $connect->prepare("SELECT * FROM `shop-users`
-               	WHERE username = ? AND UserID != ?");
+               $myCheck = $connect->prepare("SELECT * FROM users
+               	WHERE username = ? AND id != ?");
                $myCheck->execute(array($username, $id));
                $myCheck->fetch();
                $check = $myCheck->rowCount();
 	            if($check == 1){
 		             $error =  "<div class='container'>
-		                        <div class='alert alert-danger'>The username is already existed</div>";
-		             redirectHome($error, 'back');
+								<div class='alert alert-danger'>The username is already existed</div>
+								</div>";
+		             redirectHome('back');
 		         } else{
 		         	//Update Database with this info
-			     $stmt = $connect->prepare("UPDATE `shop-users` 
-				SET username = ? , Email = ? ,  `Full-Name` = ? where UserID = ?");
-		     	$stmt->execute(array($username, $email, $full, $id));
+			     $stmt = $connect->prepare("UPDATE users 
+				SET username = ? , Email = ? ,  fullname = ?, `password` = ? , 
+				class = ?  where id = ?");
+		     	$stmt->execute(array($username, $email, $full, $pass, $class , $id));
 		     	//Echo Success Message
 		     	$success =  " <div class='container'>
-		     	              <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Updated </div>";
-		     	redirectHome($success);
+							   <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Updated </div>
+							   </div>";
+		     	redirectHome();
 		         }
 		    
 			} else{
@@ -251,69 +299,69 @@ elseif ($do == "Update") {
 				echo "<div class='alert alert-danger'>"  . 
 				$error . "</div>";
 			}
-			$myError = "<div class='alert alert-success'>Please Refill The Form</div>";
-			redirectHome($myError, 'back');
+			redirectHome('back');
 			}
 			
-		
 	
 	} else{
-		header('location: members.php');
+		header('location: students.php');
 	}
 } 
 
-elseif ($do == "Insert") { //Insert Page
+elseif ($nav == "Insert") {
        if($_SERVER['REQUEST_METHOD'] === "POST"){
 		echo "<h1 class='text-center'>Insert </h1>"; 
 		//Get Variables From the Form
-		$username = $_POST['username'];
-		$email = $_POST['email'];
-		$full = $_POST['full-name'];
-		$pass = $_POST['password'];
-		$hashedPass = sha1($pass);
+		$username   = $_POST['username'];
+		$email      = $_POST['email'];
+		$full       = $_POST['full-name'];
+		$class      = $_POST['class'];
 		//Validate The Form
 		$formErrors = [];
-
+		if(!empty($_POST['password'])){
+			if($_POST['password'] != $_POST['password-con']){
+				$formErrors[] = "The Two Passwords are <strong> Not </strong> Identical";
+			} else{
+				$pass = sha1($_POST['password']);
+			}
+		} 
 		if(empty($username)){
-			$formErrors[] = "Username can't <strong>empty</strong>";
+			$formErrors[] = "Username can't be <strong> empty </strong>";
 		} 
 		if (empty($email)) {
-			$formErrors[] = "Username can't <strong>empty</strong>";
+			$formErrors[] = "Username can't be <strong> empty </strong>";
 		}
 		if (empty($full)) {
-			$formErrors[] = "Full Name can't <strong>empty</strong>";
-		} 	
-		if (empty($pass)) {
-			$formErrors[] = "Password can't <strong>empty</strong>";
+			$formErrors[] = "Full Name can't be <strong> empty </strong>";
 		} 
-		if (strlen($username) < 4) {
-			$formErrors[] = "Full Name can't be smaller than<strong> 4 Characters</strong>";
+		if (strlen($username) < 2) {
+			$formErrors[] = "Full Name can't be smaller than <strong> 2 Characters</strong>";
 		}
-		if (strlen($full) > 14) {
-			$formErrors[] = "Full Name can't be larger than<strong> 14 Characters</strong>";
-		} 
 		//Database Query
-			//Check if There is no errors 
 			if(empty($formErrors)){
-				$check = checkItem('username','`shop-users`', $username);
+				$check = checkRecord('username','users', $username);
 	            if($check == 1){
 		             $error =  "<div class='container'>
-		                        <div class='alert alert-danger'>The username is already existed</div>";
-		             redirectHome($error, 'back');
+								<div class='alert alert-danger'>The username is already existed</div>
+								</div>";
+		             redirectHome('back');
 	            } else{
 	             	//Insert this info into Database 
-				   	$stmt =  $connect->prepare("INSERT INTO `shop-users`(username, Password, Email, `Full-Name`,RegStatus ,date) 
-				   		VALUES (:user, :pass, :mail, :full, 1 ,now())");
+				   	$stmt =  $connect->prepare("INSERT INTO users
+					   (username, `password`, Email, fullname ,  `Rank` , class) 
+				   		VALUES (:user, :pass, :mail, :full, 0 , :class )");
 				   	$stmt->execute(array(
-				   		':user' => $username,
-				   		':pass' => $hashedPass,
-				   		':mail' => $email,
-				   		':full' => $full
+				   		':user'  => $username,
+				   		':pass'  => $pass,
+				   		':mail'  => $email,
+					    ':full'  => $full,
+						':class' => $class
 				   	));
 			     	//Echo Success Message
 			     	$success = "<div class='container'>
-			     	            <div class='alert alert-success'>" .  $stmt->rowCount() . " Member Added</div>";
-			     	redirectHome($success, 'back');
+								 <div class='alert alert-success'>" .  $stmt->rowCount() . " Student Added</div>
+								 </div>";
+			     	redirectHome('back');
 				}
 		    
 			} else{
@@ -323,89 +371,43 @@ elseif ($do == "Insert") { //Insert Page
 				echo "<div class='alert alert-danger'>"  . 
 				$error . "</div>";
 			 }
-				$editMsg = "<div class='alert alert-info'> Please refill the inputs to complete the Process</div>";
-				redirectHome($editMsg, 'back' , 5);
+				redirectHome('back');
 
 			}
 			
-		
-
       } else{
-      	$error = " <div class='container'>
-      	            <div class='alert alert-danger'>You are not Allowed to browse this Page</div>
-      	            ";
-		redirectHome($error, 3);
+      	header('location: student.php');
 	}
 }
-elseif ($do == "Delete") { //Delete Page ?>
-
+elseif ($nav == "Delete") { ?>
 			   <div class="container">
 				<h1 class="text-center">Delete Member</h1>
-			
  <?php
 		$userid = isset($_GET['userid']) 
 		&& is_numeric($_GET['userid'])? 
-		intval($_GET['userid']): 0; //That is our user that we would deal with
-		//Now We get the Record from database
-		$check = checkItem( 'UserID' , '`shop-users`', $userid);
-		//if We have a record then it must be > 0
-		if($check > 0){ // User Existed
+		intval($_GET['userid']): 0;
+		$check = checkRecord( 'id' , 'users', "WHERE id = {$userid}");
+		if($check > 0){ 
 			//Delete Query
-				$stmt = $connect->prepare("DELETE FROM `shop-users` WHERE
-					                       UserID = :user");
-				$stmt->bindParam(":user" , $userid);
-				$stmt->execute();
+				$stmt = $connect->prepare("DELETE FROM users WHERE
+					                        id = ?");
+				$stmt->execute(array($userid));
 				//Echo Success Message
 			 $success =  "<div class='container'>
-			                <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Deleted </div> </div>";
-			 redirectHome($success);
+							<div class='alert alert-success'>" .  $stmt->rowCount() . " Record Deleted </div> </div>";
+							echo $success;
+			 redirectHome();
 		} else{
-			$error = " <div class='container'>
-			               <div class='alert alert-danger'>There is No Such User</div> 
-			            ";
-			redirectHome($error, 'back');
+			header('location: students.php');
 		}
 } 
-elseif ($do == "Active") { //Activate Page ?>
-	          <div class="container">
-				<h1 class="text-center">Activate Member</h1>
-			
- <?php
-		$userid = isset($_GET['userid']) 
-		&& is_numeric($_GET['userid'])? 
-		intval($_GET['userid']): 0; //That is our user that we would deal with
-		//Now We get the Record from database
-		$check = checkItem( 'UserID' , '`shop-users`', $userid);
-		//if We have a record then it must be > 0
-		if($check > 0){ // User Existed
-			//Delete Query
-				$stmt = $connect->prepare("	UPDATE `shop-users`SET RegStatus = 1 WHERE  UserID = :user");
-				$stmt->bindParam(":user" , $userid);
-				$stmt->execute();
-				//Echo Success Message
-			 $success =  "<div class='container'>
-			                <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Activated </div> </div>";
-			 redirectHome($success, 'back');
-		} else{
-			$error = " <div class='container'>
-			               <div class='alert alert-danger'>There is No Such User</div> 
-			            ";
-			redirectHome($error, 'back');
-		}
-	
-} else{
-	$error = " 
-	            <div class='container'>
-	            <h1 class='text-center'>Error 404</h1>
-	            <div class='alert alert-danger'>There's no Page With this Name</div>
-	            ";
-			redirectHome($error);
+ else{
+	header('location: students.php');
 }
 	include $templates . 'footer.php';
 } else{
 	header('location:index.php');
-	exit(); //Stop the Script
-	 //Redirect To the Login Page if there is no  Session
+	exit();
 }
 ob_end_flush();
 ?>

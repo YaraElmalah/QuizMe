@@ -16,6 +16,20 @@ function getAllFrom($field, $table, $where = NULL , $orderBy ,
 	return $records;
 }
 /*
+Function to check record if it exists in Database
+[Function accepts Parameters] ==> 
+$select -> the item to Select [example: user, item, category]
+$from   -> the table to Select from [example: users, items, categories]
+$where  -> The condition that the query depends on to get the records from db example[WHERE id = 100] --> [optional]
+*/
+function checkRecord($select, $from , $where = NULL){
+	global $connect; 
+	$query = $connect->prepare("SELECT $select FROM $from  $where");
+	$query->execute();
+	$count = $query-> rowCount();
+	return $count;
+}
+/*
 - get the title of the Page by written the title You want in "$pageTitle" on the top of the page 
 the final result is => theVariable '$pageTitle' - BrandName 'QuizMe'
 - if the variable did not included, the brandName will show 'QuizMe'
@@ -27,4 +41,29 @@ function getTitle(){
 	} else{ 
 		echo 'QuizMe';
 	}
+}
+/*
+Parameters of the Function
+$seconds  ==> Num of Seconds before redirecting (Default is 3)
+$url      ==> link that you want to redirect into
+if You didn't pass a parameter in the function then it will redirect into index.php else would redirect to back
+*/
+function redirectHome($url = null, $seconds = 3){
+	if($url === null){
+		$url = 'index.php';
+		$link = 'homepage';
+	} else{
+		if(isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] !== ''){
+			$url = $_SERVER['HTTP_REFERER'];
+			$link = 'Previous Page';
+		} else{
+			$url = 'index.php';
+			$link = 'Previous Page';
+		}
+	}
+ 
+ echo '<div class=\'alert alert-info\'>You will be redirected to the ' .  $link  . 
+ ' after ' .  $seconds .' seconds ...</div>';
+ header("refresh: $seconds;url=$url"); //redirect to index.php
+ exit();
 }
