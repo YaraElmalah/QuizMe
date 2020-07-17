@@ -56,7 +56,7 @@ if($nav == 'Main'){?>
          $title   = $_POST['title'];
 		 $num     = $_POST['no'];
         if($num > 0){
-          /*  if(tableExist($title)!= 1){
+           if(tableExist($title)!= 1){
         $sql = $connect->prepare("CREATE TABLE {$title}(
             quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 			correct INT NOT NULL)");    
@@ -68,8 +68,8 @@ if($nav == 'Main'){?>
             $ans = $connect->prepare("ALTER TABLE {$title} ADD `{$i}for{$j}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
             $ans->execute();
           }
-        }?>*/
-    //   <?php //Start The Entry of The Quiz ?>
+        }?>
+            <?php //Start The Entry of The Quiz ?>
         <h1 class="text-center">Quiz: <?php echo $title ?></h1>
 	      <div class="container">
 		 <form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
@@ -143,13 +143,13 @@ if($nav == 'Main'){?>
 			</div>
 		</form>
 	</div>
-    <?php /* for table}/*else{
+    <?php }else{
         echo "<div class='alert alert-danger'>This Quiz is already exist</div>";
         redirectHome('back' , 5);
-    } */}/* else{
+    } } else{
         echo "<div class='alert alert-danger'>You should enter Positive Number of Questions</div>";
         redirectHome('back' , 5);
-    }*/
+    }
 
 
 
