@@ -16,7 +16,7 @@ if($nav == 'Main'){?>
 
 	<h1 class="text-center">Submit New Quiz</h1>
 	<div class="container">
-		<form class="form-horizontal form-lg" action="?nav=add" method="POST">
+		<form class="form-horizontal form-lg" action="?nav=Add" method="POST">
 			<div class="form-group">
 				<!--Start Quiz Title-->
 				<div class="form-group">
@@ -34,7 +34,7 @@ if($nav == 'Main'){?>
 					Number of Questions 
 				</label>
 				<div class="col-sm-10 col-md-6">
-				<input type="number" name="no-q" class="form-control" placeholder="Number of Questions" required="required">
+				<input type="text" name="no" class="form-control" placeholder="Number of Questions" required="required">
 				</div>
 				</div>
 				<!--End Questions Numbers-->
@@ -51,14 +51,15 @@ if($nav == 'Main'){?>
 		</form>
 	</div>
 
-<?php } elseif($nav = 'Add'){
+<?php } elseif($nav == 'Add'){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-        $title   = $_POST['title'];
-        $num     = $_POST['no-q'];
+         $title   = $_POST['title'];
+		 $num     = $_POST['no'];
         if($num > 0){
-            if(tableExist($title)!= 1){
+          /*  if(tableExist($title)!= 1){
         $sql = $connect->prepare("CREATE TABLE {$title}(
-            quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT)");    
+            quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+			correct INT NOT NULL)");    
         $sql->execute();
         for($i = 0 ; $i < $num ; $i++){
           $ques = $connect->prepare("ALTER TABLE {$title} ADD `question{$i}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
@@ -67,13 +68,13 @@ if($nav == 'Main'){?>
             $ans = $connect->prepare("ALTER TABLE {$title} ADD `{$i}for{$j}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
             $ans->execute();
           }
-        }?>
-       <?php //Start The Entry of The Quiz ?>
+        }?>*/
+    //   <?php //Start The Entry of The Quiz ?>
         <h1 class="text-center">Quiz: <?php echo $title ?></h1>
 	      <div class="container">
 		 <form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
-		 	<input type="hidden" name="title" value="<?php echo $title?>">
-			 <input type="hidden" name="num" value="<?php echo $num ?>">
+		 	<input type="text" name="title" value="<?php echo $title?>">
+			 <input type="text" name="no" value="<?php echo $num ?>"> 
 			<div class="form-group">
             <?php for($i = 0 ; $i < $num ; $i++ ){
 ?>
@@ -91,40 +92,40 @@ if($nav == 'Main'){?>
 				<!--Start First Answer-->
 				<div class="form-group">
 					<label class="col-sm-2 control-label radio">
-					<input type="radio" name="choice<?php echo ($i + 1) ?>">
+					<input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
 				<div class="col-sm-10">
-				<input type="text" name="ans1<?php echo ($i + 1) ?>" class="form-control" placeholder="First Choice" required="required" >
+				<input data-radio=".choice-one" data-value="1" type="text" name="ans1<?php echo ($i + 1) ?>" class="form-control" placeholder="First Choice" required="required" >
 				</div>
 				</div>
 				<!--End First Answer-->
 				<!--Start Second Answer-->
                 <div class="form-group">
 					<label class="col-sm-2 control-label radio">
-					<input type="radio" name="choice<?php echo ($i + 1) ?>">
+					<input  value="2" class="choice-two" type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
 				<div class="col-sm-10">
-				<input type="text" name="ans2<?php echo ($i + 1) ?>" class="form-control" placeholder="Second Choice" required="required" >
+				<input data-radio=".choice-two" data-value="2" type="text" name="ans2<?php echo ($i + 1) ?>" class="form-control" placeholder="Second Choice" required="required" >
 				</div>
 				</div>
 				<!--End Second Answer-->
 				<!--Start Third Answer-->
                 <div class="form-group">
 					<label class="col-sm-2 control-label radio">
-					<input type="radio" name="choice<?php echo ($i + 1) ?>">
+					<input value="3" class="choice-three" type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
 				<div class="col-sm-10">
-				<input type="text" name="ans3<?php echo ($i + 1) ?>" class="form-control" placeholder="Third Choice" required="required" >
+				<input data-radio=".choice-three" data-value="3" type="text" name="ans3<?php echo ($i + 1) ?>" class="form-control" placeholder="Third Choice" required="required" >
 				</div>
 				</div>
 				<!--End Third Answer-->
 				<!--Start Fourth Answer-->
                 <div class="form-group">
 					<label class="col-sm-2 control-label radio">
-					<input type="radio" name="choice<?php echo ($i + 1) ?>">
+					<input value="4" class="choice-four" type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
 				<div class="col-sm-10">
-				<input type="text" name="ans4<?php echo ($i + 1) ?>" class="form-control" placeholder="Fourth Choice" required="required" >
+				<input data-radio=".choice-four" data-value="4" type="text" name="ans4<?php echo ($i + 1) ?>" class="form-control" placeholder="Fourth Choice" required="required" >
 				</div>
 				</div>
 				<!--End Fourth Answer-->
@@ -135,28 +136,55 @@ if($nav == 'Main'){?>
 					<label class="col-sm-2 control-label"> 
 				</label>
 					<div class="col-sm-10">
-						<input type="submit" value="Submit New Quiz" class="btn btn-primary btn-lg">
+						<input type="submit" name="filled" value="Submit New Quiz" class="btn btn-primary btn-lg">
 					</div>
 				</div>
 				<!--End Submit-->
 			</div>
 		</form>
 	</div>
-    <?php }else{
+    <?php /* for table}/*else{
         echo "<div class='alert alert-danger'>This Quiz is already exist</div>";
         redirectHome('back' , 5);
-    } } else{
-        echo "<div class='alert alert-danger'>Positive Number of Questions</div>";
+    } */}/* else{
+        echo "<div class='alert alert-danger'>You should enter Positive Number of Questions</div>";
         redirectHome('back' , 5);
-    }
+    }*/
 
 
 
     } else{
         header('location: quizes.php');
     }
-} elseif($nav = 'Insert'){
-
+} elseif($nav == 'Insert'){
+	if($_SERVER['REQUEST_METHOD'] === "POST"){
+	  $iteration    = $_POST['no'];
+	  $quizName     = $_POST['title'];
+		echo "hello";
+		echo $iteration;
+		echo $quizName;
+		for($i = 0 ; $i < $iteration ; $i++){
+			//Start First Loop
+			 //Start Question
+			$question    = $_POST['question' . ($i + 1)];
+			 //End Question
+			 //start correct Answer
+			 $correct     = $_POST['choice' . ($i + 1)];
+			 //Choices
+			 $firstChoice  = $_POST['ans1' . ($i + 1)];
+			 $secondChoice = $_POST['ans2' . ($i + 1)];
+			 $thirdChoice  = $_POST['ans3' . ($i + 1)];
+			 $fourthChoice = $_POST['ans4' . ($i + 1)];
+			 echo "The Question is: " . $question . "<br>";
+			 echo "The correct answer is: " . $correct . "<br>";
+			 echo "The first is: " . $firstChoice . "<br>";
+			 echo "The second is: " . $secondChoice . "<br>";
+			 echo "The third is: " . $thirdChoice . "<br>";
+			 echo "The fourth is: " . $fourthChoice . "<br>";
+		}	
+	} else{
+		header('location: quizes.php');
+	}
 }
 
 else{

@@ -1,5 +1,10 @@
 $(function() {
     'use strict';
+    //make the Radio Button take the value from beside Field
+    $("input[type='text']").on('keyup', function() {
+        $($(this).data('radio')).attr('value', $(this).data('value'));
+    })
+
     //Remove Placeholder on Focus
     $('[placeholder]').focus(function() {
         $(this).attr('data-text', $(this).attr('placeholder'));
