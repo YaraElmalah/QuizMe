@@ -58,12 +58,15 @@ if($nav == 'Main'){?>
         if($num > 0){
            if(tableExist($title)!= 1){
         $sql = $connect->prepare("CREATE TABLE {$title}(
-            quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-			correct INT NOT NULL)");    
+            quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT)");    
         $sql->execute();
         for($i = 0 ; $i < $num ; $i++){
-          $ques = $connect->prepare("ALTER TABLE {$title} ADD `question{$i}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
-          $ques->execute();
+		  $ques = $connect->prepare("ALTER TABLE {$title} ADD `question{$i}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL
+		  ");
+		  $ques->execute();
+		  $cor = $connect->prepare("ALTER TABLE {$title} ADD `correct{$i}` INT(11) ");
+		  $cor->execute();
+		  
           for($j = 0 ; $j < 4 ; $j++){
             $ans = $connect->prepare("ALTER TABLE {$title} ADD `{$i}for{$j}` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL");
             $ans->execute();
@@ -73,8 +76,8 @@ if($nav == 'Main'){?>
         <h1 class="text-center">Quiz: <?php echo $title ?></h1>
 	      <div class="container">
 		 <form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
-		 	<input type="text" name="title" value="<?php echo $title?>">
-			 <input type="text" name="no" value="<?php echo $num ?>"> 
+		 	<input type="hidden" name="title" value="<?php echo $title?>">
+			 <input type="hidden" name="no" value="<?php echo $num ?>"> 
 			<div class="form-group">
             <?php for($i = 0 ; $i < $num ; $i++ ){
 ?>
@@ -160,9 +163,6 @@ if($nav == 'Main'){?>
 	if($_SERVER['REQUEST_METHOD'] === "POST"){
 	  $iteration    = $_POST['no'];
 	  $quizName     = $_POST['title'];
-		echo "hello";
-		echo $iteration;
-		echo $quizName;
 		for($i = 0 ; $i < $iteration ; $i++){
 			//Start First Loop
 			 //Start Question
@@ -175,13 +175,23 @@ if($nav == 'Main'){?>
 			 $secondChoice = $_POST['ans2' . ($i + 1)];
 			 $thirdChoice  = $_POST['ans3' . ($i + 1)];
 			 $fourthChoice = $_POST['ans4' . ($i + 1)];
-			 echo "The Question is: " . $question . "<br>";
-			 echo "The correct answer is: " . $correct . "<br>";
-			 echo "The first is: " . $firstChoice . "<br>";
-			 echo "The second is: " . $secondChoice . "<br>";
-			 echo "The third is: " . $thirdChoice . "<br>";
-			 echo "The fourth is: " . $fourthChoice . "<br>";
-		}	
+		$stmt = $connect->prepare("INSERT INTO {$quizName}(question{$i}, correct{$i}, {$i}for0, {$i}for1, {$i}for2, {$i}for3 )
+		VALUES(:question{$i}, :correct{$i}, :ans1, :ans2, :ans3, :ans4)");
+		$stmt->execute(array(
+			":question{$i}" => $question,
+			":correct{$i}"  => $correct,
+			":ans1"         => $firstChoice,			
+			":ans2"         => $secondChoice,			
+			":ans3"         => $thirdChoice,			
+			":ans4"         => $fourthChoice			
+		));
+		};	
+		?>
+		<div class="container">
+		<div class="alert alert-success">The Quiz is now Live!</div>
+		<?php
+		redirectHome('back', 6);
+		echo "</div>";
 	} else{
 		header('location: quizes.php');
 	}
