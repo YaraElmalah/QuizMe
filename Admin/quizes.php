@@ -56,6 +56,7 @@ if($nav == 'Main'){?>
         $title   = $_POST['title'];
         $num     = $_POST['no-q'];
         if($num > 0){
+            if(tableExist($title)!= 1){
         $sql = $connect->prepare("CREATE TABLE {$title}(
             quizID INT NOT NULL PRIMARY KEY AUTO_INCREMENT)");    
         $sql->execute();
@@ -71,6 +72,8 @@ if($nav == 'Main'){?>
         <h1 class="text-center">Quiz: <?php echo $title ?></h1>
 	      <div class="container">
 		 <form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
+		 	<input type="hidden" name="title" value="<?php echo $title?>">
+			 <input type="hidden" name="num" value="<?php echo $num ?>">
 			<div class="form-group">
             <?php for($i = 0 ; $i < $num ; $i++ ){
 ?>
@@ -90,7 +93,7 @@ if($nav == 'Main'){?>
 					<label class="col-sm-2 control-label radio">
 					<input type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
-				<div class="col-sm-10 col-md-6">
+				<div class="col-sm-10">
 				<input type="text" name="ans1<?php echo ($i + 1) ?>" class="form-control" placeholder="First Choice" required="required" >
 				</div>
 				</div>
@@ -100,7 +103,7 @@ if($nav == 'Main'){?>
 					<label class="col-sm-2 control-label radio">
 					<input type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
-				<div class="col-sm-10 col-md-6">
+				<div class="col-sm-10">
 				<input type="text" name="ans2<?php echo ($i + 1) ?>" class="form-control" placeholder="Second Choice" required="required" >
 				</div>
 				</div>
@@ -110,7 +113,7 @@ if($nav == 'Main'){?>
 					<label class="col-sm-2 control-label radio">
 					<input type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
-				<div class="col-sm-10 col-md-6">
+				<div class="col-sm-10">
 				<input type="text" name="ans3<?php echo ($i + 1) ?>" class="form-control" placeholder="Third Choice" required="required" >
 				</div>
 				</div>
@@ -120,7 +123,7 @@ if($nav == 'Main'){?>
 					<label class="col-sm-2 control-label radio">
 					<input type="radio" name="choice<?php echo ($i + 1) ?>">
 				</label>
-				<div class="col-sm-10 col-md-6">
+				<div class="col-sm-10">
 				<input type="text" name="ans4<?php echo ($i + 1) ?>" class="form-control" placeholder="Fourth Choice" required="required" >
 				</div>
 				</div>
@@ -131,7 +134,7 @@ if($nav == 'Main'){?>
 				<div class="form-group">
 					<label class="col-sm-2 control-label"> 
 				</label>
-					<div class="col-sm-10 col-md-6">
+					<div class="col-sm-10">
 						<input type="submit" value="Submit New Quiz" class="btn btn-primary btn-lg">
 					</div>
 				</div>
@@ -139,17 +142,23 @@ if($nav == 'Main'){?>
 			</div>
 		</form>
 	</div>
-    <?php } else{
-        echo "<div class='alert alert-danger'>Please enter a Positive Number</div>";
-        redirectHome('back');
+    <?php }else{
+        echo "<div class='alert alert-danger'>This Quiz is already exist</div>";
+        redirectHome('back' , 5);
+    } } else{
+        echo "<div class='alert alert-danger'>Positive Number of Questions</div>";
+        redirectHome('back' , 5);
     }
-        
+
 
 
     } else{
         header('location: quizes.php');
     }
+} elseif($nav = 'Insert'){
+
 }
+
 else{
 	header('location: quizes.php');
 }

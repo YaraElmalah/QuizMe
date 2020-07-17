@@ -67,3 +67,16 @@ function redirectHome($url = null, $seconds = 3){
  header("refresh: $seconds;url=$url"); //redirect to index.php
  exit();
 }
+function tableExist($myTable){
+	global $connect;
+	$stmt = $connect->prepare("SHOW TABLES FROM quiz");
+	$stmt->execute();
+	$tables = $stmt->fetchAll();
+	$flag = FALSE;
+	foreach($tables as $table => $value){
+		if(in_array($myTable, $value)){
+			$flag = TRUE;
+		}    
+	 }
+	return $flag;
+}
