@@ -38,7 +38,22 @@ if(isset($_SESSION['username'])){
 				</div>
 				<div class="panel-body">
 					<?php
+					$quizes = getAllTables();
+					echo "<ul class='list-unstyled'>";
+					foreach($quizes as $quiz => $q){
+						foreach($q as $myQuiz){
+							if($myQuiz != 'users'){
+								if(!empty($myQuiz)){
+									?>
+									<li><?php echo $myQuiz ?></li>
+									<?php
+								}
+							}
+						break;
+						}
+					}
 					?>
+					</ul>
 				</div>
 				</div>
 			</div>
@@ -53,7 +68,12 @@ if(isset($_SESSION['username'])){
 							</span>
 				</div>
 				<div class="panel-body">
-				Here is Students
+				<?php 
+				$students = getAllFrom('username', 'users', "WHERE Rank != 1 " , 'id');
+				foreach($students as $student){
+					echo $student['username'] . "<br>";
+				}
+				?>
 				</div>
 				</div>
 			</div>
