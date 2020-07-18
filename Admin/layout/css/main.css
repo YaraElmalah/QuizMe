@@ -48,10 +48,10 @@ body {
 
 .login {
     width: 500px;
-    margin: 100px auto;
+    margin: 45px auto;
 }
 
-.login h4,
+h4,
 h1 {
     color: #333;
     font-family: 'Lobster', cursive;
@@ -67,10 +67,6 @@ h1 {
 
 .login input {
     margin-bottom: 10px;
-}
-
-.login .btn {
-    background-color: #008dde
 }
 
 
