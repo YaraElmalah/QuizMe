@@ -23,6 +23,20 @@ body {
     font-size: 25px
 }
 
+.panel-default>.panel-heading {
+    color: #9d9d9d;
+    background: #333;
+    border-color: #333;
+}
+
+.toggle-show {
+    cursor: pointer;
+}
+
+.toggle-show:hover {
+    color: #F00
+}
+
 
 /*End Main Rules*/
 
@@ -61,56 +75,3 @@ h1 {
 
 
 /*End Index Page*/
-
-
-/*Start Dashboard Page*/
-
-.home-stats .stat {
-    color: #fff;
-    border: 1px solid #CCC;
-    padding: 20px;
-    font-size: 15px;
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.home-stats .stat a {
-    color: #fff;
-    position: relative;
-}
-
-.home-stats .stat a:hover {
-    text-decoration: none
-}
-
-.home-stats i {
-    font-size: 70px;
-    position: absolute;
-    top: 55px;
-    right: 26px;
-}
-
-.home-stats .st-students {
-    background-color: #eb4d4b
-}
-
-.home-stats .st-quizes {
-    background-color: #4834d4
-}
-
-.home-stats .stat h3 {
-    color: #fdcb6e;
-    font-family: Lobster;
-    margin-top: 7px;
-}
-
-.home-stats .stat span {
-    display: block;
-    font-size: 50px;
-    color: #2d3436;
-    font-family: Lobster;
-    padding-right: 17%
-}
-
-
-/*End Dashboard Page*/

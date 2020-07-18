@@ -105,3 +105,11 @@ function countRecords($col, $table){
       $stmt2->execute();
  return $stmt2->fetchColumn();
 }
+/* Get All the Tables For DB */
+function getAllTables(){
+	global $connect;
+	$stmt = $connect->prepare("SHOW TABLES FROM quiz");
+	        $stmt->execute();
+			$tables = $stmt->fetchAll();
+			return $tables;
+}

@@ -234,6 +234,7 @@ if($nav == 'Main'){
 	</div> <?php
 		} else{
 			header('location: students.php');
+			exit();
 		}
 	
         } 
@@ -305,6 +306,7 @@ elseif ($nav == "Update") {
 	
 	} else{
 		header('location: students.php');
+		exit();
 	}
 } 
 
@@ -376,7 +378,8 @@ elseif ($nav == "Insert") {
 			}
 			
       } else{
-      	header('location: student.php');
+		  header('location: student.php');
+		  exit();
 	}
 }
 elseif ($nav == "Delete") { ?>
@@ -399,10 +402,12 @@ elseif ($nav == "Delete") { ?>
 			 redirectHome();
 		} else{
 			header('location: students.php');
+			exit();
 		}
 } 
  else{
 	header('location: students.php');
+	exit();
 }
 	include $templates . 'footer.php';
 } else{

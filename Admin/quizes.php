@@ -19,9 +19,7 @@ if($nav == 'Main'){
 				<th class="text-capitalize">number of questions</th>
 				<th class="text-capitalize">options</th>
 			</tr> <?php
-			$stmt = $connect->prepare("SHOW TABLES FROM quiz");
-	        $stmt->execute();
-	        $tables = $stmt->fetchAll();
+				$tables = getAllTables();
 	         foreach($tables  as $table => $value){
 		        foreach($value as $branch){
 			          if($branch != 'users'){
@@ -32,7 +30,7 @@ if($nav == 'Main'){
 							<td><?php echo countRecords('quizID', $branch) ?></td>
 							<td>
 							<a href="?nav=Edit&quizname=<?php echo $branch ?>" class='btn btn-success'>Edit Quiz</a>
-							<a href="?nav=Delete&quizname=<?php echo $branch ?>"" class='btn btn-danger confirm'>Delete Quiz</a>
+							<a href="?nav=Delete&quizname=<?php echo $branch ?>" class='btn btn-danger confirm'>Delete Quiz</a>
 							</td>
 							</tr>
 				    	<?php
@@ -189,7 +187,8 @@ if($nav == 'Main'){
 
 
     } else{
-        header('location: quizes.php');
+		header('location: quizes.php');
+		exit();
     }
 } elseif($nav == 'Insert'){
 	if($_SERVER['REQUEST_METHOD'] === "POST"){
@@ -226,6 +225,7 @@ if($nav == 'Main'){
 		echo "</div>";
 	} else{
 		header('location: quizes.php');
+		exit();
 	}
 } elseif($nav == 'Edit'){
 	if( isset($_GET['quizname']) && (tableExist($_GET['quizname']) == 1)){
@@ -303,7 +303,7 @@ if($nav == 'Main'){
 		   </label>
 			   <div class="col-sm-10">
 				   <input type="submit" value="Update Quiz" class="btn btn-primary btn-lg">
-				   <a class="btn btn-danger btn-lg confirm">Delete Quiz</a>
+				   <a href="quizes.php?nav=Delete&quizname=<?php echo $myQuiz ?>" class="btn btn-danger btn-lg confirm">Delete Quiz</a>
 			   </div>
 		   </div>
 		   <!--End Submit-->
@@ -313,6 +313,7 @@ if($nav == 'Main'){
 		<?php
 	}else{
 		header('location: quizes.php');
+		exit();
 	} 
 		
 } elseif($nav == "Update"){
@@ -328,14 +329,36 @@ if($nav == 'Main'){
 			$fourthChoice = $_POST['ans3' . ($i + 1)];
 		$stmt = $connect->prepare("UPDATE {$table} SET question{$i} = ?, 
 		correct{$i} = ?, {$i}for0 = ?, {$i}for1 = ?, {$i}for2 = ?, {$i}for3 = ?");
-		$stmt->execute();
+		$stmt->execute(array($question, $correct, $firstChoice, $secChoice, $thirdChoice, $fourthChoice));
+		?>
+		<div class="container">
+		 <div class="alert alert-success text-center">The Quiz is Updated Successfuly</div>
+		</div>
+		<?php
+			redirectHome();
 		}
 	} else{
 		header('location: quizes.php');
+		exit();
 	}
-}
-else{
+} elseif($nav == "Delete"){
+	if(isset($_GET['quizname']) && tableExist($_GET['quizname'])){
+			$table = $_GET['quizname'];
+			$stmt = $connect->prepare("DROP TABLE {$table}");
+			$stmt->execute();
+			?>
+			<div class="container">
+				<div class="alert alert-success">The Quiz Deleted Successfuly</div>
+			</div>
+			<?php
+				redirectHome();
+	} else{
+		header('location: quizes.php');
+		exit();
+	}
+} else{
 	header('location: quizes.php');
+	exit();
 }
 	include $templates . 'footer.php';
 } else{
