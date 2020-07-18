@@ -16,6 +16,16 @@ function getAllFrom($field, $table, $where = NULL , $orderBy ,
 	return $records;
 }
 /*
+This function used to get specific record from database
+*/
+function getSpecific($field, $table, $where = NULL){
+ 	global $connect;
+	$stmt = $connect->prepare("SELECT $field FROM $table $where LIMIT 1");
+	$stmt->execute();
+	$records = $stmt->fetch();
+	return $records;
+}
+/*
 Function to check record if it exists in Database
 [Function accepts Parameters] ==> 
 $select -> the item to Select [example: user, item, category]
@@ -67,6 +77,10 @@ function redirectHome($url = null, $seconds = 3){
  header("refresh: $seconds;url=$url"); //redirect to index.php
  exit();
 }
+/*
+if the table exists it will return 1 and if not existed it will return 0
+-- check if the table exists in the db
+*/
 function tableExist($myTable){
 	global $connect;
 	$stmt = $connect->prepare("SHOW TABLES FROM quiz");
@@ -79,4 +93,15 @@ function tableExist($myTable){
 		}    
 	 }
 	return $flag;
+}
+/*
+count the number of the records in specific Table 
+$col   ==> the column you want to want count from (reference)
+$table ==> the table you want to do that in
+*/
+function countRecords($col, $table){
+	global $connect;
+	$stmt2 = $connect->prepare("SELECT COUNT($col) FROM $table");
+      $stmt2->execute();
+ return $stmt2->fetchColumn();
 }
