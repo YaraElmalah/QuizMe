@@ -5,7 +5,6 @@ ob_start();
  if(isset($_SESSION['students'])){
   	header('location: home.php');
  }
- print_r($_SESSION);
   	//Check if The User Coming from HTTP POST Method
   	if($_SERVER['REQUEST_METHOD'] == 'POST'):
         //Getting The Info From the Form

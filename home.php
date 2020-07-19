@@ -6,6 +6,27 @@ if(isset($_SESSION['students'])){
     ?>
     <div class="container">
         <h1 class="container text-capitalize text-center">take a quizes</h1>
+        <ul class="list-unstyled">
+            <div class="row">
+            <?php
+            $quizes = getAllTables();
+					echo "<ul class='list-unstyled text-center'>";
+					foreach($quizes as $quiz => $q){
+						foreach($q as $myQuiz){
+							if($myQuiz != 'users'){
+									?>
+									<li class="col-sm-4">
+                                   <h3> <?php echo $myQuiz ?> </h3>
+                                   <a href='quiz.php?quizname=<?php echo $myQuiz ?>'  class="btn btn-success">Take Quiz Now</a>
+                                    </li>
+									<?php
+							}
+						break;
+                        }
+                    }
+                    ?>
+            </div>
+        </ul>
     </div>
 	<?php
 include $templates . 'footer.php';

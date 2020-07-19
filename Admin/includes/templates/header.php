@@ -24,7 +24,7 @@
       <a class="navbar-brand" href="index.php">QuizMe <i class="fas fa-feather-alt"></i></a>
     </div>
 <?php 
-  if(isset($_SESSION['username'])): ?>
+  if(isset($_SESSION['username'])){ ?>
     <div class="collapse navbar-collapse" id="nav-toggle">
       <ul class="nav navbar-nav navbar-right">
       <li><a href="quizes.php?nav=submit">New Quiz<span class="sr-only">(current)</span></a></li>
@@ -34,6 +34,13 @@
         <li><a href="logout.php" title="logout"><i class="fas fa-sign-out-alt"></i><span class="sr-only">(current)</span></a></li>
               </ul>
     </div>
-  <?php endif; ?>
+  <?php } elseif(isset($_SESSION['students'])){?>
+      <div class="collapse navbar-collapse" id="nav-toggle">
+        <ul class="nav navbar-nav navbar-right">
+        <li><a href="logout.php" title="logout"><i class="fas fa-sign-out-alt"></i><span class="sr-only">(current)</span></a></li>
+        </ul>
+      </div>
+
+  <?php }?>
   </div>
 </nav>
