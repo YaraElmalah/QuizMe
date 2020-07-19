@@ -7,7 +7,9 @@ if(isset($_SESSION['username'])){
 	?>
 	<section class="home-stats">
 		<div class="container">
+		<div class="header">
 		<h1 class="text-capitalize text-center">admin dashboard</h1>
+        </div>
 		<!--Start Fast Links --> 
 		<div class="row">
 			<div class="col-sm-3">

@@ -1,5 +1,40 @@
 /*Start Main Rules*/
 
+:root {
+    --main-color: #071313;
+    --brand-font: 'Prompt', sans-serif;
+    --sub-color: #dc6428;
+}
+
+.btn-quiz {
+    color: #fff;
+    background-color: #951708;
+    border-color: #951708;
+    font-size: 16px;
+    font-family: var(--brand-font);
+}
+
+.header {
+    position: relative;
+}
+
+h1 {
+    font-family: var(--brand-font);
+    font-size: 40px;
+    margin: 41px auto;
+    color: #951708;
+}
+
+.header h1:after {
+    content: "";
+    background: var(--sub-color);
+    width: 214px;
+    height: 5px;
+    position: absolute;
+    top: 58px;
+    left: 460px;
+}
+
 body {
     padding-top: 71px;
 }
@@ -11,7 +46,21 @@ body {
 
 .nav>li>a,
 .navbar-brand {
-    padding: 15px 12px
+    padding: 15px 12px;
+    font-family: var(--brand-font);
+}
+
+.navbar-inverse {
+    background-color: var(--main-color);
+    border-color: var(--main-color);
+}
+
+.navbar-inverse .navbar-brand {
+    color: #fff;
+}
+
+.navbar-inverse .navbar-brand i {
+    color: var(--sub-color);
 }
 
 .asterisk {
@@ -37,28 +86,13 @@ body {
     color: #F00
 }
 
-
-/*End Main Rules*/
-
-
-/*Start index Page*/
-
-
-/*Start Login Form*/
+.loginform .form-group {
+    margin-bottom: 5px;
+}
 
 .login {
     width: 500px;
     margin: 45px auto;
-}
-
-h4,
-h1 {
-    color: #333;
-    font-family: 'Lobster', cursive;
-    margin-bottom: 20px;
-    font-size: 65px;
-    font-weight: bold;
-    color: #333
 }
 
 .login .form-control {
@@ -68,6 +102,3 @@ h1 {
 .login input {
     margin-bottom: 10px;
 }
-
-
-/*End Index Page*/

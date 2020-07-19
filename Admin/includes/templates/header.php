@@ -6,8 +6,8 @@
   <link rel="stylesheet" href= "<?php echo $css ?>bootstrap-min.css" />
   <link rel="stylesheet" href= "<?php echo $css ?>icons.min.css" />
   <link rel="stylesheet" href= "<?php echo $css ?>main.css" />
+   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap">
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Balsamiq+Sans&display=swap" >
   <title><?php getTitle(); ?></title>
 </head>
 <body>
@@ -26,7 +26,7 @@
 <?php 
   if(isset($_SESSION['username'])){ ?>
     <div class="collapse navbar-collapse" id="nav-toggle">
-      <ul class="nav navbar-nav navbar-right">
+      <ul class="nav navbar-nav navbar-right text-uppercase">
       <li><a href="quizes.php?nav=submit">New Quiz<span class="sr-only">(current)</span></a></li>
       <li><a href="grades.php">Grades<span class="sr-only">(current)</span></a></li>
       <li><a href="students.php?nav=Edit&userid=1">Admin Info<span class="sr-only">(current)</span></a></li>
