@@ -6,6 +6,7 @@ if(isset($_SESSION['students'])){
     ?>
     <div class="container">
         <h1 class="container text-capitalize text-center">take a quizes</h1>
+        <div class="alert alert-success"><strong>Dear Students,</strong><br> Please Note that Your First trial <strong>ONLY</strong> will be recorded</div>
         <ul class="list-unstyled">
             <div class="row">
             <?php
@@ -13,7 +14,7 @@ if(isset($_SESSION['students'])){
 					echo "<ul class='list-unstyled text-center'>";
 					foreach($quizes as $quiz => $q){
 						foreach($q as $myQuiz){
-							if($myQuiz != 'users'){
+							if($myQuiz != 'users' && $myQuiz != 'grades'){
 									?>
 									<li class="col-sm-4">
                                    <h3> <?php echo $myQuiz ?> </h3>

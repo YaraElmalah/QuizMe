@@ -57,7 +57,28 @@ if(isset($_SESSION['students'])){
             </div>
             </div>
             <?php
-                        
+                $studentID = $studentInfo['id'];
+                $myRecord = checkRecord("*", "grades" , "WHERE quizName = '{$quiz}' AND student = '{$studentID}'");
+                if($myRecord < 1){
+                        //Database
+                    $stmt = $connect->prepare("INSERT INTO grades(quizName, student, grade, `Date`)
+                    VALUES(:quiz, :stu, :grade, now())");
+                    $stmt->execute(array(
+                        ":quiz"  => $quiz,
+                        ":stu"   => $studentInfo['id'],
+                        ":grade" => $sum
+                    ));
+                    //Sending An Email
+                    $admin  = getSpecific("*", "users", "WHERE Rank = 1");
+                    $to     = $admin['Email'];
+                    $subject = "Quiz Finished ! " ;
+                    $message = "Good Morning, 1\r\n" . $studentInfo['fullname'] . " from class: ". $studentInfo['class'] . " take the " . $quiz . " quiz and got a total Score " . $sum;
+                    mail($to, $subject, $message);
+                } else{
+                    ?>
+                    <div class="alert alert-danger text-center">Please Note That Your Results is not Recorded AS this is not Your First trial</div>
+                    <?php
+                }
 
       ?>
           </div>

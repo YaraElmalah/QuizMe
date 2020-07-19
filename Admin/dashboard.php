@@ -5,7 +5,7 @@ if(isset($_SESSION['username'])){
     $pageTitle = 'Dashboard';
     include 'init.php';
 	?>
-	<section class="home-stats text-center">
+	<section class="home-stats">
 		<div class="container">
 		<h1 class="text-capitalize">admin dashboard</h1>
 		<!--Start Fast Links --> 
@@ -27,6 +27,33 @@ if(isset($_SESSION['username'])){
          </div>
 		<!--End Fast Links-->
 		<div class="row">
+		<!--Start Grades Panel-->
+		<div class="col-sm-12">
+				<div class="panel panel-default">
+				<div class="panel-heading text-capitalize">
+					grades
+					<span class="pull-right toggle-show">
+							<i class="fas fa-plus"></i>
+							</span>
+				</div>
+				<div class="panel-body">
+					<?php
+					$stmt = $connect->prepare("SELECT * FROM grades ORDER BY  id DESC");
+					$stmt->execute();
+					$grades = $stmt->fetchAll(); ?>
+				    <ul class='list-unstyled'>
+						<?php 
+						foreach($grades as $stu){?>
+							<li><span><?php echo $stu['id']?></span></li>
+						<?php }
+						?>
+					</ul>
+				</div>
+				</div>
+			</div>
+			<!--End grades Panel-->
+		</div>
+		<div class="row">
 			<!--Start First Panel-->
 			<div class="col-sm-6">
 				<div class="panel panel-default">
@@ -42,7 +69,7 @@ if(isset($_SESSION['username'])){
 					echo "<ul class='list-unstyled'>";
 					foreach($quizes as $quiz => $q){
 						foreach($q as $myQuiz){
-							if($myQuiz != 'users'){
+							if($myQuiz != 'users' && $myQuiz != 'grades'){
 								if(!empty($myQuiz)){
 									?>
 									<li><?php echo $myQuiz ?></li>
