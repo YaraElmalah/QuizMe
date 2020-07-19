@@ -22,12 +22,12 @@ if($nav == 'Main'){
 				$tables = getAllTables();
 	         foreach($tables  as $table => $value){
 		        foreach($value as $branch){
-			          if($branch != 'users'){
+			          if($branch != 'users' && $branch != 'grades'){
 				       if(!empty($branch)){
 				      	?>
 							<tr>
 							<td><?php echo $branch ?> </td>
-							<td><?php echo countRecords('quizID', $branch) ?></td>
+							<td><?php echo countRecords('quizID', "`" . $branch . "`" )  ?></td>
 							<td>
 							<a href="?nav=Edit&quizname=<?php echo $branch ?>" class='btn btn-success'>Edit Quiz</a>
 							<a href="?nav=Delete&quizname=<?php echo $branch ?>" class='btn btn-danger confirm'>Delete Quiz</a>
@@ -83,7 +83,7 @@ if($nav == 'Main'){
 
 <?php } elseif($nav == 'Add'){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
-         $title   = $_POST['title'];
+         $title   = "`" . $_POST['title'] . "`";
 		 $num     = $_POST['no'];
         if($num > 0){
            if(tableExist($title)!= 1){

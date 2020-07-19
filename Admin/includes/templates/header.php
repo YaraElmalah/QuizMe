@@ -28,6 +28,7 @@
     <div class="collapse navbar-collapse" id="nav-toggle">
       <ul class="nav navbar-nav navbar-right">
       <li><a href="quizes.php?nav=submit">New Quiz<span class="sr-only">(current)</span></a></li>
+      <li><a href="grades.php">Grades<span class="sr-only">(current)</span></a></li>
       <li><a href="students.php?nav=Edit&userid=1">Admin Info<span class="sr-only">(current)</span></a></li>
         <li><a href="quizes.php">Quizes<span class="sr-only">(current)</span></a></li>
        <li><a href="students.php">Students<span class="sr-only">(current)</span></a></li>

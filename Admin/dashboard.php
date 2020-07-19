@@ -7,7 +7,7 @@ if(isset($_SESSION['username'])){
 	?>
 	<section class="home-stats">
 		<div class="container">
-		<h1 class="text-capitalize">admin dashboard</h1>
+		<h1 class="text-capitalize text-center">admin dashboard</h1>
 		<!--Start Fast Links --> 
 		<div class="row">
 			<div class="col-sm-3">
@@ -20,7 +20,7 @@ if(isset($_SESSION['username'])){
 				<a href="students.php"class="btn btn-default btn-lg text-capitalize">manage students</a>
 			</div>
 			<div class="col-sm-3">
-				<a href="quizes.php" class="btn btn-default btn-lg text-capitalize">manage quizes</a>
+				<a href="grades.php" class="btn btn-default btn-lg text-capitalize">students grades</a>
 			</div>
 			
 			
@@ -31,20 +31,29 @@ if(isset($_SESSION['username'])){
 		<div class="col-sm-12">
 				<div class="panel panel-default">
 				<div class="panel-heading text-capitalize">
-					grades
+					latest grades
 					<span class="pull-right toggle-show">
 							<i class="fas fa-plus"></i>
 							</span>
 				</div>
 				<div class="panel-body">
 					<?php
-					$stmt = $connect->prepare("SELECT * FROM grades ORDER BY  id DESC");
+					$stmt = $connect->prepare("SELECT grades.*, users.fullname AS user 
+					FROM grades 
+					INNER JOIN users
+					ON users.id = grades.student
+					ORDER BY  id DESC LIMIT 10 ");
 					$stmt->execute();
 					$grades = $stmt->fetchAll(); ?>
 				    <ul class='list-unstyled'>
 						<?php 
 						foreach($grades as $stu){?>
-							<li><span><?php echo $stu['id']?></span></li>
+							<li class="row">
+							<span class="col-sm-3"><?php echo $stu['user']?></span>
+							<span class="col-sm-3"><?php echo $stu['quizName']?></span>
+							<span class="col-sm-3"><?php echo $stu['grade']?></span>
+							<span class="col-sm-3"><?php echo $stu['Date']?></span>
+							</li>
 						<?php }
 						?>
 					</ul>
