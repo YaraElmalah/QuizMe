@@ -45,10 +45,21 @@ if(isset($_SESSION['students'])){
                 </div>
             <?php
         }
-      //  print_r($examAns);?>
-                
+            $sum = 0;
+            for($i = 0; $i < count($examAns); $i++){
+                $sum += $examAns[$i];
+            }?>
+            </div>
            </div>
-           </div>
+            <div class="panel panel-success">
+            <div class="panel-body">
+            <p class="total"><span>Total: </span><?php echo $sum ?></p>
+            </div>
+            </div>
+            <?php
+                        
+
+      ?>
           </div>
       <?php
       include $templates . 'footer.php';
