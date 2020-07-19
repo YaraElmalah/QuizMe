@@ -5,8 +5,10 @@ if(isset($_SESSION['students'])){
     include 'init.php';
     ?>
     <div class="container">
-        <h1 class="container text-capitalize text-center">take a quizes</h1>
-        <div class="alert alert-success"><strong>Dear Students,</strong><br> Please Note that Your First trial <strong>ONLY</strong> will be recorded</div>
+        <div class="header header-home">
+        <h1 class="container text-capitalize text-center">take a quiz</h1>
+</div>
+        <div class="alert alert-info notice"><strong>Dear Students,</strong><br> Please Note that Your First trial <strong>ONLY</strong> will be recorded.</div>
         <ul class="list-unstyled">
             <div class="row">
             <?php
@@ -17,8 +19,10 @@ if(isset($_SESSION['students'])){
 							if($myQuiz != 'users' && $myQuiz != 'grades'){
 									?>
 									<li class="col-sm-4">
+                                        <div class='quiz-sec'>
                                    <h3> <?php echo $myQuiz ?> </h3>
-                                   <a href='quiz.php?quizname=<?php echo $myQuiz ?>'  class="btn btn-success">Take Quiz Now</a>
+                                   <a href='quiz.php?quizname=<?php echo $myQuiz ?>'  class="btn btn-quiz">Take Quiz Now</a>
+                                     </div>
                                     </li>
 									<?php
 							}

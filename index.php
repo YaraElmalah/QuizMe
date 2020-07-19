@@ -53,10 +53,8 @@ ob_start();
 				     	class="btn btn-quiz btn-block">
 				    </div>
 				</div>
-			</form>
-			<!--End Login Form-->
-			<?php
-			if(!empty($formError)){
+				<?php
+				if(!empty($formError)){
 				echo "<div class='alert alert-danger text-center'>";
 				foreach($formError as $error){
 					echo "<strong>" . $error . "</strong>";
@@ -64,6 +62,9 @@ ob_start();
 				echo  "</div>";
 			}
 			?>
+			</form>
+			<!--End Login Form-->
+		
 	</div>
 </section>
 <?php include $templates . 'footer.php';

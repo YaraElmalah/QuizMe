@@ -7,8 +7,8 @@
   <link rel="stylesheet" href= "<?php echo $css ?>icons.min.css" />
   <link rel="stylesheet" href= "<?php echo $css ?>main.css" />
    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500&display=swap">
-   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lobster&display=swap">
-  <title><?php getTitle(); ?></title>
+   <link  rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Acme&display=swap">
+     <title><?php getTitle(); ?></title>
 </head>
 <body>
 <nav class="navbar navbar-inverse navbar-fixed-top">

@@ -3,13 +3,15 @@ ob_start();
 session_start();
 if(isset($_SESSION['students'])){ 
 	include 'init.php';
-if(isset($_GET['quizname']) && tableExist($_GET['quizname'])== 1){
-    $table  = $_GET['quizname'];
+if(isset($_GET['quizname']) && tableExist(str_replace("-",  " " , $_GET['quizname']))== 1){
+    $table  = "`" .  $_GET['quizname'] . "`";
 	$myInfo = getAllFrom("*", $table, "" , "quizID");
 	$num    = countRecords('quizID', $table);
 	?>
     <div class='container'>
-      <h1 class='text-center'>Quiz: <?php echo $table ?> </h1>
+		<div class="header">
+	  <h1 class='text-center'>Quiz: <?php echo $table ?> </h1>
+</div>
       <form class="form-horizontal form-lg" action="report.php" method="POST">
 	   <div class="form-group">
 	   <input type="hidden" name="table" value="<?php echo $table ?>">
@@ -21,54 +23,52 @@ if(isset($_GET['quizname']) && tableExist($_GET['quizname'])== 1){
         ?>
         <!--start First Loop-->
 		   <!--Start Question-->
+		   <div class="panel panel-default">
+			   <div class="panel-body">
 		   <div class="form-group">
-			   <label class="col-sm-2 control-label">
+			   <div class="row question-head">
+			   <label class="col-sm-2 control-label btn-quiz">
 			   Question <?php echo ($i + 1) ?>
 		   </label>
 			   <div class="col-sm-10 col-md-6">
-               <p><?php echo $myInfo['question' . $i] ?><p>
+               <p class="question-show"><?php echo $myInfo['question' . $i] ?><p>
 			   </div>
+		</div>
 		   </div>
 		   <!--End Question-->
 		   <!--Start First Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
-			   <input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>">
-		   </label>
-		   <div class="col-sm-10">
-           <p><?php echo $myInfo[$i . "for0"]?></p>
+		   <div class="row">
+			<div class="col-sm-offset-2">
+			  <input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>">
+		   <label><?php echo $myInfo[$i . "for0"]?></label>
 		   </div>
-		   </div>
+		</div>
 		   <!--End First Answer-->
 		   <!--Start Second Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
-			   <input  value="2" class="choice-two" type="radio" name="choice<?php echo ($i + 1) ?>">
-		   </label>
-		   <div class="col-sm-10">
-		   <p><?php echo $myInfo[$i . "for1"]?></p>
+		   <div class="row">
+		   <div class="col-sm-offset-2">
+			   <input value="2" class="choice-two" type="radio" name="choice<?php echo ($i + 1) ?>">
+		   <label><?php echo $myInfo[$i . "for1"]?></label>
 		   </div>
-		   </div>
+		</div>
 		   <!--End Second Answer-->
 		   <!--Start Third Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+		   <div class="col-sm-offset-2">
 			   <input value="3" class="choice-three" type="radio" name="choice<?php echo ($i + 1) ?>">
-		   </label>
-		   <div class="col-sm-10">
-		   <p><?php echo $myInfo[$i . "for2"]?></p>
+		   <label><?php echo $myInfo[$i . "for2"]?></label>
 		   </div>
-		   </div>
+		</div>
 		   <!--End Third Answer-->
 		   <!--Start Fourth Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+			   <div class="col-sm-offset-2">
 			   <input value="4" class="choice-four" type="radio" name="choice<?php echo ($i + 1) ?>">
-		   </label>
-		   <div class="col-sm-10">
-		   <p><?php echo $myInfo[$i . "for3"]?></p>
+		   <label><?php echo $myInfo[$i . "for3"]?></label>
 		   </div>
 		   </div>
+		</div>
+		</div>
 		   <!--End Fourth Answer-->
 	   <!--End First Loop-->
 	   <?php }?>
