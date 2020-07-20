@@ -4,19 +4,28 @@
     --main-color: #071313;
     --brand-font: 'Prompt', sans-serif;
     --sub-color: #dc6428;
-    --heading-font: 'Acme', sans-serif
+    --heading-font: 'Acme', sans-serif;
+    --tone-color: #951708
+}
+
+hr {
+    border-top: 1px solid var(--sub-color);
 }
 
 .btn-quiz {
     color: #fff;
-    background-color: #951708;
-    border-color: #951708;
+    background-color: var(--tone-color);
+    border-color: var(--tone-color);
     font-size: 16px;
     font-family: var(--brand-font);
 }
 
 .btn-quiz:hover {
     color: #fff
+}
+
+input[type=radio] {
+    margin: 4px 15px 0;
 }
 
 .header {
@@ -27,7 +36,14 @@ h1 {
     font-family: var(--brand-font);
     font-size: 40px;
     margin: 41px auto;
-    color: #951708;
+    color: var(--tone-color);
+}
+
+.panel-default>.panel-heading {
+    color: #fff;
+    background: #071313;
+    border-color: #071313;
+    font-family: var(--brand-font);
 }
 
 @media (min-width: 992px) {
@@ -51,7 +67,7 @@ h1 {
         width: 0;
         border-width: 14px;
         top: 1px;
-        left: 199px;
+        left: 155px;
     }
 }
 
@@ -92,18 +108,12 @@ body {
     font-size: 25px
 }
 
-.panel-default>.panel-heading {
-    color: #9d9d9d;
-    background: #333;
-    border-color: #333;
-}
-
 .toggle-show {
     cursor: pointer;
 }
 
 .toggle-show:hover {
-    color: #F00
+    color: var(--tone-color)
 }
 
 .loginform .form-group {
@@ -153,6 +163,67 @@ body {
 .question-show {
     font-family: var(--heading-font);
     font-size: 19px;
-    padding-top: 5px;
+    padding-top: 15px;
     margin-left: 15px;
+}
+
+.ques-group {
+    width: 80%;
+    margin: auto auto 20px;
+}
+
+.ques-group label {
+    margin-top: 10px;
+}
+
+.ques-group .btn-quiz {
+    margin-left: 15px;
+}
+
+.personal-info li {
+    padding: 10px 5px;
+    font-size: 18px;
+    font-family: var(--heading-font);
+}
+
+.personal-info li span {
+    width: 128px;
+    display: inline-block;
+    font-weight: bold;
+    color: var(--tone-color);
+    font-family: var(--brand-font);
+    font-size: 18px;
+}
+
+.exam-report .ques {
+    padding: 10px 5px;
+}
+
+.exam-report .ques p {
+    padding: 10px 5px;
+}
+
+.exam-report .ques p span:first-child {
+    font-weight: bold;
+    font-size: 15px;
+    color: var(--tone-color);
+    width: 260px;
+    display: inline-block;
+}
+
+.exam-report .ques p span:last-child {
+    font-family: var(--brand-font);
+    font-size: 17px;
+    padding-left: 16px;
+    display: inline-block;
+}
+
+.exam-report hr:last-of-type {
+    display: none;
+}
+
+.total {
+    font-family: var(--heading-font);
+    color: var(--tone-color);
+    font-size: 25px;
 }

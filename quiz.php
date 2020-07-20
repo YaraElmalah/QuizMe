@@ -23,9 +23,8 @@ if(isset($_GET['quizname']) && tableExist(str_replace("-",  " " , $_GET['quiznam
         ?>
         <!--start First Loop-->
 		   <!--Start Question-->
-		   <div class="panel panel-default">
+		   <div class="panel panel-default ques-group">
 			   <div class="panel-body">
-		   <div class="form-group">
 			   <div class="row question-head">
 			   <label class="col-sm-2 control-label btn-quiz">
 			   Question <?php echo ($i + 1) ?>
@@ -33,7 +32,6 @@ if(isset($_GET['quizname']) && tableExist(str_replace("-",  " " , $_GET['quiznam
 			   <div class="col-sm-10 col-md-6">
                <p class="question-show"><?php echo $myInfo['question' . $i] ?><p>
 			   </div>
-		</div>
 		   </div>
 		   <!--End Question-->
 		   <!--Start First Answer-->
@@ -73,12 +71,10 @@ if(isset($_GET['quizname']) && tableExist(str_replace("-",  " " , $_GET['quiznam
 	   <!--End First Loop-->
 	   <?php }?>
 		   <!--Start Submit-->
-		   <div class="form-group">
 			   <label class="col-sm-2 control-label"> 
 		   </label>
-			   <div class="col-sm-10">
-				   <input type="submit" value="Finish Quiz" class="btn btn-success btn-lg">
-			   </div>
+			   <div class="col-xs-offset-2">
+				   <input type="submit" value="Finish Quiz" class="btn btn-quiz btn-lg">
 		   </div>
 		   <!--End Submit-->
 	   </div>

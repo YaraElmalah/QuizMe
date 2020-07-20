@@ -26,16 +26,20 @@ ob_start();
   		endif;
   	endif;
  ?>
-  	<!--Start Login Form-->
+	  <!--Start Login Form-->
+	  <section class="loginform">
     <div class="container">
+		<div class="header">
+	<h1 class="text-capitalize text-center">admin login</h1>
+        </div>
  	<form class="login" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
- 		<h4 class="text-capitalize text-center">admin login</h4>
  		<input class="form-control input-lg" type="text" name="user"
  		 autocomplete="off" placeholder="Username">
  		<input class="form-control input-lg" type="password" name="pass" autocomplete="new-password" placeholder="Password">
  		<input class="btn btn-success btn-block" type="submit" value="Login">
  	</form>
 	 </div>
+</section>
  	<!--End Login Form-->
 <?php
   include $templates . 'footer.php';

@@ -11,17 +11,20 @@ if(isset($_SESSION['students'])){
         $studentInfo = getSpecific("*", "users", "WHERE username = '{$student}'");
         ?>
         <div class="container">
+            <div class="header">
             <h1 class="text-center">Quiz Report: <?php echo $quiz ?></h1>
-            <div class="panel panel-default">
+            </div>
+            <div class="panel panel-default personal-info">
+                <div class="panel-heading">Student Information</div>
             <div class="panel-body">
                 <ul class="list-unstyled">
-                <li><span>Full Name: <?php echo $studentInfo['fullname'] ?></span></li>
-                <li><span>Class: <?php echo $studentInfo['class'] ?></span></li>
-                <li><span>Email: <?php echo $studentInfo['Email'] ?></span></li>
+                <li><span><i class="fas fa-id-card fa-fw"></i>Full Name </span>: <?php echo $studentInfo['fullname'] ?></li>
+                <li><span><i class="fas fa-users fa-fw"></i>Class </span>: <?php echo $studentInfo['class'] ?></li>
+                <li><span><i class="fas fa-envelope fa-fw"></i>Email </span>: <?php echo $studentInfo['Email'] ?></li>
                 </ul>
                 </div>
            </div>
-           <div class="panel panel-default">
+           <div class="panel panel-default exam-report">
                 <div class="panel-heading">
                   Exams Answers
                   <span class="pull-right toggle-show">
@@ -38,11 +41,12 @@ if(isset($_SESSION['students'])){
             $examAns[] = ($choice == $correct)? 1 : 0;
             ?> 
                 <div class="ques">
-                <p><span>Question <?php echo $i + 1 ?>:</span> <span><?php echo $myInfo['question' . $i] ?></span></p>
-                <p><span>Your Answer is: </span><span><?php echo $myInfo[$i . 'for' . ($choice - 1) ] ?></span></p>
-                <p><span>The Correct Answer is: </span><span><?php echo $myInfo[$i . 'for' . ($correct - 1) ] ?></span></p>
-                <p><span>Gained Points: </span><span><?php echo $examAns[$i]?></span></p>
+                <p><span>Question <?php echo $i + 1 ?></span>: <span><?php echo $myInfo['question' . $i] ?></span></p>
+                <p><span>Your Answer is </span>: <span> <?php echo $myInfo[$i . 'for' . ($choice - 1) ] ?></span></p>
+                <p><span>The Correct Answer is </span>: <span><?php echo $myInfo[$i . 'for' . ($correct - 1) ] ?></span></p>
+                <p><span>Gained Points </span>: <span><?php echo $examAns[$i]?></span></p>
                 </div>
+                <hr>
             <?php
         }
             $sum = 0;
@@ -53,7 +57,7 @@ if(isset($_SESSION['students'])){
            </div>
             <div class="panel panel-success">
             <div class="panel-body">
-            <p class="total"><span>Total: </span><?php echo $sum ?></p>
+            <p class="total text-center"><span>Total </span>: <?php echo $sum ?></p>
             </div>
             </div>
             <?php
