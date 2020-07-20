@@ -34,6 +34,7 @@ ob_start();
 			<!--Start Login Form-->
 			<form class="form-horizontal login" method="POST" 
 			action= "<?php echo $_SERVER['PHP_SELF']?>">
+			<div class="row">
 				<div class="form-group">
 					<div class="col-sm-12">
 				     	<input type="text" name="username" class="form-control"

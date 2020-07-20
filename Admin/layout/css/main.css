@@ -116,6 +116,12 @@ body {
     color: var(--tone-color)
 }
 
+.form-control,
+.login input[type='submit'].btn-quiz {
+    width: 100%;
+    margin: auto
+}
+
 .loginform .form-group {
     margin-bottom: 5px;
 }
@@ -148,8 +154,8 @@ body {
 }
 
 .login {
-    width: 500px;
     margin: 45px auto;
+    width: 418px
 }
 
 .login .form-control {
@@ -227,3 +233,36 @@ body {
     color: var(--tone-color);
     font-size: 25px;
 }
+
+.small-nav {
+    margin-top: 54px;
+    margin-bottom: 30px;
+}
+
+
+/*Start Admin Dashboard*/
+
+.small-nav .btn-quiz {
+    margin-bottom: 10px;
+}
+
+.show-panel ul li {
+    padding: 10px 5px;
+    margin-bottom: 10px;
+    font-family: var(--brand-font);
+    text-align: center;
+}
+
+.show-panel ul li:nth-child(even) {
+    background: var(--sub-color);
+    color: #fff;
+}
+
+.show-panel ul li span {
+    display: inline-block;
+    width: 25%;
+    vertical-align: middle;
+}
+
+
+/*End Admin Dashboard*/

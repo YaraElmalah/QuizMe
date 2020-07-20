@@ -11,27 +11,29 @@ if(isset($_SESSION['username'])){
 		<h1 class="text-capitalize text-center">admin dashboard</h1>
         </div>
 		<!--Start Fast Links --> 
+		<div class="small-nav">
 		<div class="row">
 			<div class="col-sm-3">
-				<a href="students.php?nav=Add" class="btn btn-default btn-lg text-capitalize">add new student</a>
+				<a href="students.php?nav=Add" class="btn btn-quiz btn-lg text-capitalize">add new student</a>
 			</div>
 			<div class="col-sm-3">
-				<a href="quizes.php?nav=submit" class="btn btn-default btn-lg text-capitalize">add new Quiz</a>
+				<a href="quizes.php?nav=submit" class="btn btn-quiz btn-lg text-capitalize">add new Quiz</a>
 			</div>
 			<div class="col-sm-3">
-				<a href="students.php"class="btn btn-default btn-lg text-capitalize">manage students</a>
+				<a href="students.php"class="btn btn-quiz btn-lg text-capitalize">manage students</a>
 			</div>
 			<div class="col-sm-3">
-				<a href="grades.php" class="btn btn-default btn-lg text-capitalize">students grades</a>
+				<a href="grades.php" class="btn btn-quiz btn-lg text-capitalize">students grades</a>
 			</div>
 			
 			
-         </div>
+		 </div>
+    </div>
 		<!--End Fast Links-->
 		<div class="row">
 		<!--Start Grades Panel-->
 		<div class="col-sm-12">
-				<div class="panel panel-default">
+				<div class="panel panel-default show-panel">
 				<div class="panel-heading text-capitalize">
 					latest grades
 					<span class="pull-right toggle-show">
@@ -67,7 +69,7 @@ if(isset($_SESSION['username'])){
 		<div class="row">
 			<!--Start First Panel-->
 			<div class="col-sm-6">
-				<div class="panel panel-default">
+				<div class="panel panel-default show-panel">
 				<div class="panel-heading text-capitalize">
 					quizes
 					<span class="pull-right toggle-show">
@@ -98,7 +100,7 @@ if(isset($_SESSION['username'])){
 			<!--End First Panel-->
 			<!--Start Second Panel-->
 			<div class="col-sm-6">
-				<div class="panel panel-default">
+				<div class="panel panel-default show-panel">
 				<div class="panel-heading text-capitalize">
 					students
 					<span class="pull-right toggle-show">
@@ -106,12 +108,17 @@ if(isset($_SESSION['username'])){
 							</span>
 				</div>
 				<div class="panel-body">
+					<ul class="list-unstyled">
 				<?php 
-				$students = getAllFrom('username', 'users', "WHERE Rank != 1 " , 'id');
+				$students = getAllFrom('*', 'users', "WHERE Rank != 1 " , 'id' , 'DESC');
 				foreach($students as $student){
-					echo $student['username'] . "<br>";
+					echo "<li>" . "<span class='pull-left'>"  . $student['fullname'] . "</span>";
+					echo "<span>" .  $student['class'] . 
+					"</span>";
+					echo "</li>";
 				}
 				?>
+				</ul>
 				</div>
 				</div>
 			</div>

@@ -32,11 +32,26 @@ ob_start();
 		<div class="header">
 	<h1 class="text-capitalize text-center">admin login</h1>
         </div>
- 	<form class="login" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
+	 <form class="form-horizontal login" method="POST" action="<?php echo $_SERVER['PHP_SELF']?>">
+	  		<div class="row">
+	         <div class="form-group">
+					<div class="col-sm-12">
  		<input class="form-control input-lg" type="text" name="user"
  		 autocomplete="off" placeholder="Username">
+		  </div>
+		  </div>
+		  <div class="form-group">
+
+					<div class="col-sm-12">
  		<input class="form-control input-lg" type="password" name="pass" autocomplete="new-password" placeholder="Password">
- 		<input class="btn btn-success btn-block" type="submit" value="Login">
+		 </div>
+		 </div>
+		 <div class="form-group">
+			<div class="col-sm-12">
+ 		<input class="btn btn-quiz btn-block" type="submit" value="Login">
+		 </div>
+		 </div>
+      </div>
  	</form>
 	 </div>
 </section>
