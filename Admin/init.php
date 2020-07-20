@@ -9,3 +9,4 @@
     include 'connect.php';
     include $func      . 'functions.php';
     include $templates . 'header.php';
+    ini_set("max_execution_time", 360);

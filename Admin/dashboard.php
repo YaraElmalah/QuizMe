@@ -11,18 +11,18 @@ if(isset($_SESSION['username'])){
 		<h1 class="text-capitalize text-center">admin dashboard</h1>
         </div>
 		<!--Start Fast Links --> 
-		<div class="small-nav">
+		<div class="small-nav text-center">
 		<div class="row">
-			<div class="col-sm-3">
+			<div class="col-sm-3 col-xs-6">
 				<a href="students.php?nav=Add" class="btn btn-quiz btn-lg text-capitalize">add new student</a>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3 col-xs-6">
 				<a href="quizes.php?nav=submit" class="btn btn-quiz btn-lg text-capitalize">add new Quiz</a>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3 col-xs-6">
 				<a href="students.php"class="btn btn-quiz btn-lg text-capitalize">manage students</a>
 			</div>
-			<div class="col-sm-3">
+			<div class="col-sm-3 col-xs-6">
 				<a href="grades.php" class="btn btn-quiz btn-lg text-capitalize">students grades</a>
 			</div>
 			
@@ -32,7 +32,7 @@ if(isset($_SESSION['username'])){
 		<!--End Fast Links-->
 		<div class="row">
 		<!--Start Grades Panel-->
-		<div class="col-sm-12">
+		<div class="col-sm-12 col-xs-12">
 				<div class="panel panel-default show-panel">
 				<div class="panel-heading text-capitalize">
 					latest grades
@@ -53,10 +53,10 @@ if(isset($_SESSION['username'])){
 						<?php 
 						foreach($grades as $stu){?>
 							<li class="row">
-							<span class="col-sm-3"><?php echo $stu['user']?></span>
-							<span class="col-sm-3"><?php echo $stu['quizName']?></span>
-							<span class="col-sm-3"><?php echo $stu['grade']?></span>
-							<span class="col-sm-3"><?php echo $stu['Date']?></span>
+							<span class="col-sm-3 col-xs-3"><?php echo $stu['user']?></span>
+							<span class="col-sm-3 col-xs-3"><?php echo $stu['quizName']?></span>
+							<span class="col-sm-3 col-xs-3"><?php echo $stu['grade']?></span>
+							<span class="col-sm-3 col-xs-3"><?php echo $stu['Date']?></span>
 							</li>
 						<?php }
 						?>

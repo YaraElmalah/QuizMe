@@ -9,15 +9,17 @@ if($nav == 'Main'){
 	?>
 
 	<div class="container">
+		<div class="header">
 		<h1 class="text-center">Manage Quizes</h1>
-	<a href='quizes.php?nav=submit' class="btn btn-primary">
+     </div>
+	<a href='quizes.php?nav=submit' class="btn btn-quiz">
     <i class="fas fa-feather-alt"></i> New Quiz</a>
 	<div class="table-responsive">
 		<table class="table table-bordered text-center main-table">
 			<tr>
-				<th class="text-uppercase">quiz name</th>
-				<th class="text-capitalize">number of questions</th>
-				<th class="text-capitalize">options</th>
+				<th class="text-uppercase text-center">quiz name</th>
+				<th class="text-capitalize text-center">number of questions</th>
+				<th class="text-capitalize text-center">options</th>
 			</tr> <?php
 				$tables = getAllTables();
 	         foreach($tables  as $table => $value){
@@ -29,7 +31,7 @@ if($nav == 'Main'){
 							<td><?php echo $branch ?> </td>
 							<td><?php echo countRecords('quizID', "`" . $branch . "`" )  ?></td>
 							<td>
-							<a href="?nav=Edit&quizname=<?php echo $branch ?>" class='btn btn-success'>Edit Quiz</a>
+							<a href="?nav=Edit&quizname=<?php echo  $branch ?>" class='btn btn-success'>Edit Quiz</a>
 							<a href="?nav=Delete&quizname=<?php echo $branch ?>" class='btn btn-danger confirm'>Delete Quiz</a>
 							</td>
 							</tr>
@@ -43,43 +45,46 @@ if($nav == 'Main'){
 	</div> 
      </div>
 <?php } elseif($nav == 'submit'){ ?>
+	<section class="loginform">
 
-	<h1 class="text-center">Submit New Quiz</h1>
 	<div class="container">
-		<form class="form-horizontal form-lg" action="?nav=Add" method="POST">
-			<div class="form-group">
+	<h1 class="text-center">Submit New Quiz</h1>
+		<form class="form-horizontal form-lg login" action="?nav=Add" method="POST">
+			<div class="row">
 				<!--Start Quiz Title-->
 				<div class="form-group">
-					<label class="col-sm-2 control-label">
+					<label class="col-sm-3 control-label">
 					Quiz Title
 				</label>
-					<div class="col-sm-10 col-md-6">
-						<input type="text" name="title" class="form-control" autocomplete="off" required="required" placeholder="Quiz Title">
+					<div class="col-sm-9">
+					<input type="text" name="title" class="form-control" autocomplete="off" required="required" placeholder="Quiz Title">
 					</div>
 				</div>
 				<!--End Quiz Title-->
 				<!--Start Questions Number-->
 				<div class="form-group">
-					<label class="col-sm-2 control-label">
-					Number of Questions 
+					<label class="col-sm-3 control-label">
+				 Questions 
 				</label>
-				<div class="col-sm-10 col-md-6">
-				<input type="text" name="no" class="form-control" placeholder="Number of Questions" required="required">
+				<div class="col-sm-9">
+				<input type="text" name="no" class="form-control" placeholder="Enter Number of questions" required="required">
 				</div>
 				</div>
 				<!--End Questions Numbers-->
 				<!--Start Submit-->
 				<div class="form-group">
-					<label class="col-sm-2 control-label"> 
+					<label class="col-sm-3 control-label"> 
 				</label>
-					<div class="col-sm-10 col-md-6">
-						<input type="submit" value="Go" class="btn btn-primary btn-lg">
+					<div class="col-sm-9">
+						<input type="submit" value="Create Quiz" class="btn btn-quiz">
 					</div>
 				</div>
+                 </div>
 				<!--End Submit-->
-			</div>
+			
+         </div>
 		</form>
-	</div>
+</section>
 
 <?php } elseif($nav == 'Add'){
     if($_SERVER['REQUEST_METHOD'] == 'POST'){
@@ -102,62 +107,66 @@ if($nav == 'Main'){
             $ans->execute();
           }
         }?>
-            <?php //Start The Entry of The Quiz ?>
-        <h1 class="text-center">Quiz: <?php echo $title ?></h1>
+			<?php //Start The Entry of The Quiz ?>
+		
+		<h1 class="text-center">Quiz: <?php echo $title ?></h1>
+	  
 	      <div class="container">
-		 <form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
+		 <form class="form-horizontal form-lg loginform specific" action="?nav=Insert" method="POST">
 		 	<input type="hidden" name="title" value="<?php echo $title?>">
 			 <input type="hidden" name="no" value="<?php echo $num ?>"> 
-			<div class="form-group">
             <?php for($i = 0 ; $i < $num ; $i++ ){
 ?>
-        <!--start First Loop-->
+		<!--start First Loop-->
 				<!--Start Question-->
-				<div class="form-group">
-					<label class="col-sm-2 control-label">
-					Question <?php echo ($i + 1) ?>
-				</label>
-					<div class="col-sm-10 col-md-6">
+				<div class="row">
+					<div class="col-sm-2">
+					<span class="btn-quiz question">Question <?php echo ($i + 1) ?></span>
+			</div>
+					<div class="col-sm-9 col-xs-8">
 						<textarea class="form-control" placeholder="Enter The Question" required name="question<?php echo ($i + 1) ?>"></textarea>
 					</div>
 				</div>
 				<!--End Question-->
 				<!--Start First Answer-->
-				<div class="form-group">
-					<label class="col-sm-2 control-label radio">
-					<input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>">
-				</label>
-				<div class="col-sm-10">
+				<div class="row">
+			<div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
+			  <input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>">
+			  </div>
+			  <div class="col-sm-9 col-xs-9">
 				<input data-radio=".choice-one" data-value="1" type="text" name="ans1<?php echo ($i + 1) ?>" class="form-control" placeholder="First Choice" required="required" >
 				</div>
-				</div>
+		  
+		</div>
+		
 				<!--End First Answer-->
+			
 				<!--Start Second Answer-->
-                <div class="form-group">
-					<label class="col-sm-2 control-label radio">
+                <div class="row">
+					<div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 					<input  value="2" class="choice-two" type="radio" name="choice<?php echo ($i + 1) ?>">
-				</label>
-				<div class="col-sm-10">
+			</div>
+				<div class="col-sm-9 col-xs-9">
 				<input data-radio=".choice-two" data-value="2" type="text" name="ans2<?php echo ($i + 1) ?>" class="form-control" placeholder="Second Choice" required="required" >
 				</div>
 				</div>
 				<!--End Second Answer-->
 				<!--Start Third Answer-->
-                <div class="form-group">
-					<label class="col-sm-2 control-label radio">
+                <div class="row">
+					<div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 					<input value="3" class="choice-three" type="radio" name="choice<?php echo ($i + 1) ?>">
-				</label>
-				<div class="col-sm-10">
+			</div>
+				<div class="col-sm-9 col-xs-9">
 				<input data-radio=".choice-three" data-value="3" type="text" name="ans3<?php echo ($i + 1) ?>" class="form-control" placeholder="Third Choice" required="required" >
 				</div>
 				</div>
 				<!--End Third Answer-->
 				<!--Start Fourth Answer-->
-                <div class="form-group">
-					<label class="col-sm-2 control-label radio">
+                <div class="row">
+					<div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 					<input value="4" class="choice-four" type="radio" name="choice<?php echo ($i + 1) ?>">
-				</label>
-				<div class="col-sm-10">
+			</div>
+				<div class="col-sm-9 col-xs-9">
 				<input data-radio=".choice-four" data-value="4" type="text" name="ans4<?php echo ($i + 1) ?>" class="form-control" placeholder="Fourth Choice" required="required" >
 				</div>
 				</div>
@@ -169,13 +178,12 @@ if($nav == 'Main'){
 					<label class="col-sm-2 control-label"> 
 				</label>
 					<div class="col-sm-10">
-						<input type="submit" name="filled" value="Submit New Quiz" class="btn btn-primary btn-lg">
+						<input type="submit" name="filled" value="Submit New Quiz" class="btn btn-quiz btn-lg">
 					</div>
 				</div>
 				<!--End Submit-->
 			</div>
 		</form>
-	</div>
     <?php }else{
         echo "<div class='alert alert-danger'>This Quiz is already exist</div>";
         redirectHome('back' , 5);
@@ -229,14 +237,14 @@ if($nav == 'Main'){
 	}
 } elseif($nav == 'Edit'){
 	if( isset($_GET['quizname']) && (tableExist($_GET['quizname']) == 1)){
-		$myQuiz = $_GET['quizname'];
+		$myQuiz = "`" . $_GET['quizname'] . "`";
 		?>
+		<h1 class="text-center">Quiz Name: <?php echo $myQuiz ?></h1>
 		<div class="container">
-			<h1 class="text-center">Quiz Name: <?php echo $myQuiz ?></h1>
 		<?php
 		$numQues = countRecords('quizID', $myQuiz);
 		?>
-		<form class="form-horizontal form-lg" action="?nav=Update" method="POST">
+		<form class="form-horizontal form-lg loginform specific" action="?nav=Update" method="POST">
 	   <div class="form-group">
 	   <input type="hidden" name="table" value="<?php echo $myQuiz ?>">
 	   <input type="hidden" name="num" value="<?php echo $numQues ?>">
@@ -246,51 +254,51 @@ if($nav == 'Main'){
 		?>
    <!--start First Loop-->
 		   <!--Start Question-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label">
-			   Question <?php echo ($i + 1) ?>
-		   </label>
-			   <div class="col-sm-10 col-md-6">
+		   <div class="row">
+			   <div class="col-sm-2">
+			   <span class="btn-quiz question"> Question <?php echo ($i + 1) ?> </span>
+	   </div>
+			   <div class="col-sm-9 col-xs-8">
 				   <textarea class="form-control" placeholder="Enter The Question" required name="question<?php echo ($i + 1) ?>"><?php echo $myInfo['question' . $i] ?></textarea>
 			   </div>
 		   </div>
 		   <!--End Question-->
 		   <!--Start First Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+			   <div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 			   <input value="1" class="choice-one" type="radio" name="choice<?php echo ($i + 1) ?>" <?php if($myInfo['correct' . $i] == 1):echo "checked"; endif; ?>>
-		   </label>
-		   <div class="col-sm-10">
+	   </div>
+		   <div class="col-sm-9 col-xs-9">
 		   <input data-radio=".choice-one" data-value="1" type="text" name="ans1<?php echo ($i + 1) ?>" class="form-control" placeholder="First Choice" required="required" value="<?php echo $myInfo[$i . "for0"]?>">
 		   </div>
 		   </div>
 		   <!--End First Answer-->
 		   <!--Start Second Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+			   <div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 			   <input  value="2" class="choice-two" type="radio" name="choice<?php echo ($i + 1) ?>"  <?php if($myInfo['correct' . $i] == 2):echo "checked"; endif; ?>>
-		   </label>
-		   <div class="col-sm-10">
+	   </div>
+		   <div class="col-sm-9 col-xs-9">
 		   <input data-radio=".choice-two" data-value="2" type="text" name="ans2<?php echo ($i + 1) ?>" class="form-control" placeholder="Second Choice" required="required" value="<?php echo $myInfo[$i . "for1"]?>">
 		   </div>
 		   </div>
 		   <!--End Second Answer-->
 		   <!--Start Third Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+			   <div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 			   <input value="3" class="choice-three" type="radio" name="choice<?php echo ($i + 1) ?>"  <?php if($myInfo['correct' . $i] == 3):echo "checked"; endif; ?>>
-		   </label>
-		   <div class="col-sm-10">
+	   </div>
+		   <div class="col-sm-9 col-xs-9">
 		   <input data-radio=".choice-three" data-value="3" type="text" name="ans3<?php echo ($i + 1) ?>" class="form-control" placeholder="Third Choice" required="required" value="<?php echo $myInfo[$i . "for2"]?>">
 		   </div>
 		   </div>
 		   <!--End Third Answer-->
 		   <!--Start Fourth Answer-->
-		   <div class="form-group">
-			   <label class="col-sm-2 control-label radio">
+		   <div class="row">
+			   <div class="col-sm-offset-1 col-sm-1 col-xs-offset-1 col-xs-1">
 			   <input value="4" class="choice-four" type="radio" name="choice<?php echo ($i + 1) ?>"  <?php if($myInfo['correct' . $i] == 4):echo "checked"; endif; ?>>
-		   </label>
-		   <div class="col-sm-10">
+	   </div>
+		   <div class="col-sm-9 col-xs-9">
 		   <input data-radio=".choice-four" data-value="4" type="text" name="ans4<?php echo ($i + 1) ?>" class="form-control" placeholder="Fourth Choice" required="required" value="<?php echo $myInfo[$i . "for3"]?>">
 		   </div>
 		   </div>
@@ -303,7 +311,7 @@ if($nav == 'Main'){
 		   </label>
 			   <div class="col-sm-10">
 				   <input type="submit" value="Update Quiz" class="btn btn-primary btn-lg">
-				   <a href="quizes.php?nav=Delete&quizname=<?php echo $myQuiz ?>" class="btn btn-danger btn-lg confirm">Delete Quiz</a>
+				   <a href="quizes.php?nav=Delete&quizname=<?php echo str_replace("`", "" , $myQuiz) ?>" class="btn btn-danger btn-lg confirm">Delete Quiz</a>
 			   </div>
 		   </div>
 		   <!--End Submit-->
@@ -332,10 +340,10 @@ if($nav == 'Main'){
 		$stmt->execute(array($question, $correct, $firstChoice, $secChoice, $thirdChoice, $fourthChoice));
 		?>
 		<div class="container">
-		 <div class="alert alert-success text-center">The Quiz is Updated Successfuly</div>
-		</div>
+		 <div class="alert alert-success"><strong>The Quiz is Updated Successfuly</strong></div>
 		<?php
 			redirectHome();
+			echo "</div>";
 		}
 	} else{
 		header('location: quizes.php');
@@ -343,15 +351,15 @@ if($nav == 'Main'){
 	}
 } elseif($nav == "Delete"){
 	if(isset($_GET['quizname']) && tableExist($_GET['quizname'])){
-			$table = $_GET['quizname'];
+			$table = "`" . $_GET['quizname'] . "`";
 			$stmt = $connect->prepare("DROP TABLE {$table}");
 			$stmt->execute();
 			?>
 			<div class="container">
-				<div class="alert alert-success">The Quiz Deleted Successfuly</div>
-			</div>
+				<div class="alert alert-success"><strong>The Quiz Deleted Successfuly</strong></div>
 			<?php
-				redirectHome();
+				redirectHome('back');
+				echo "</div>";
 	} else{
 		header('location: quizes.php');
 		exit();

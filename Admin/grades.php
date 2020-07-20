@@ -14,7 +14,8 @@ if(isset($_SESSION['username'])){
                     if(!empty($grades)){?>
                 <div class="container">
                         <h1 class="text-center">Grades</h1>
-                    <a href='quizes.php?nav=submit' class="btn btn-primary">
+                    <a href='quizes.php?nav=submit' class="btn btn-quiz">
+                    <i class="fas fa-feather-alt"></i>
                     Submit New Quiz</a>
                     <div class="table-responsive">
                         <table class="table table-bordered text-center main-table">

@@ -11,8 +11,10 @@ if($nav == 'Main'){
 	?>
 
 	<div class="container">
+		<div class="header">
 		<h1 class="text-center">Manage Students</h1>
-	<a href='students.php?nav=Add' class="btn btn-primary">
+		</div>
+	<a href='students.php?nav=Add' class="btn btn-quiz">
 	 <i class="fas fa-user-plus"></i> New Student</a>
 	<div class="table-responsive">
 		<table class="table table-bordered text-center main-table">
@@ -46,10 +48,9 @@ if($nav == 'Main'){
 } ?>
      </div>
 <?php } elseif($nav == 'Add'){ ?>
-
 	<h1 class="text-center">Add New Student</h1>
 	<div class="container">
-		<form class="form-horizontal form-lg" action="?nav=Insert" method="POST">
+		<form class="form-horizontal form-lg myForm" action="?nav=Insert" method="POST">
 			<div class="form-group">
 				<!--Start Username-->
 				<div class="form-group">
@@ -119,7 +120,7 @@ if($nav == 'Main'){
 					<label class="col-sm-2 control-label"> 
 				</label>
 					<div class="col-sm-10 col-md-6">
-						<input type="submit" value="Add Student" class="btn btn-primary btn-lg">
+						<input type="submit" value="Add Student" class="btn btn-quiz btn-lg">
 					</div>
 				</div>
 				<!--End Submit-->
@@ -145,7 +146,7 @@ if($nav == 'Main'){
 			echo "<h1 class=\"text-center\">Edit Admin</h1>";
 			}?>
 				<div class="container">
-					<form class="form-horizontal form-lg" action="?nav=Update" method="POST">
+					<form class="form-horizontal form-lg myForm" action="?nav=Update" method="POST">
 					<div class="form-group">
 					<input type="hidden" name="userid" value="<?php echo $userid; ?>">
 				<!--Start Username-->
@@ -240,7 +241,7 @@ if($nav == 'Main'){
         } 
 elseif ($nav == "Update") {
 	if($_SERVER['REQUEST_METHOD'] === "POST"){
-		echo "<h1 class='text-center'>Update </h1>"; 
+		echo "<h1 class='text-center'>Update Information</h1>"; 
 		//Get Variables From the Form
 		$id         = $_POST['userid'];
 		$username   = $_POST['username'];
@@ -278,9 +279,9 @@ elseif ($nav == "Update") {
                $check = $myCheck->rowCount();
 	            if($check == 1){
 		             $error =  "<div class='container'>
-								<div class='alert alert-danger'>The username is already existed</div>
-								</div>";
-		             redirectHome('back');
+								<div class='alert alert-danger'>The username is already existed</div>";
+					 redirectHome('back');
+					 echo 	"</div>";
 		         } else{
 		         	//Update Database with this info
 			     $stmt = $connect->prepare("UPDATE users 
@@ -289,9 +290,10 @@ elseif ($nav == "Update") {
 		     	$stmt->execute(array($username, $email, $full, $pass, $class , $id));
 		     	//Echo Success Message
 		     	$success =  " <div class='container'>
-							   <div class='alert alert-success'>" .  $stmt->rowCount() . " Record Updated </div>
-							   </div>";
-		     	redirectHome();
+							   <div class='alert alert-success'><strong>" .  $stmt->rowCount() . " Student Updated </strong></div>";
+							   echo $success;
+								  redirectHome('back');
+								  echo  "</div>";
 		         }
 		    
 			} else{
@@ -345,8 +347,9 @@ elseif ($nav == "Insert") {
 	            if($check == 1){
 		             $error =  "<div class='container'>
 								<div class='alert alert-danger'>The username is already existed</div>
+								redirectHome('back');
 								</div>";
-		             redirectHome('back');
+		           
 	            } else{
 	             	//Insert this info into Database 
 				   	$stmt =  $connect->prepare("INSERT INTO users
@@ -360,10 +363,11 @@ elseif ($nav == "Insert") {
 						':class' => $class
 				   	));
 			     	//Echo Success Message
-			     	$success = "<div class='container'>
-								 <div class='alert alert-success'>" .  $stmt->rowCount() . " Student Added</div>
-								 </div>";
-			     	redirectHome('back');
+			     echo "<div class='container'>
+                     <div class='alert alert-success'><strong>" .  $stmt->rowCount() . " Student Added </strong></div>";
+								 redirectHome('back');
+								echo   "</div>";
+			     	
 				}
 		    
 			} else{
@@ -384,7 +388,7 @@ elseif ($nav == "Insert") {
 }
 elseif ($nav == "Delete") { ?>
 			   <div class="container">
-				<h1 class="text-center">Delete Member</h1>
+				<h1 class="text-center">Delete Student</h1>
  <?php
 		$userid = isset($_GET['userid']) 
 		&& is_numeric($_GET['userid'])? 
@@ -397,9 +401,10 @@ elseif ($nav == "Delete") { ?>
 				$stmt->execute(array($userid));
 				//Echo Success Message
 			 $success =  "<div class='container'>
-							<div class='alert alert-success'>" .  $stmt->rowCount() . " Record Deleted </div> </div>";
+							<div class='alert alert-success'><strong>" .  $stmt->rowCount() . " Student Deleted </strong></div>";
 							echo $success;
-			 redirectHome();
+							 redirectHome('back');
+							 echo "</div>";
 		} else{
 			header('location: students.php');
 			exit();
