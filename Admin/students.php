@@ -1,6 +1,6 @@
 <?php
 ob_start();
-$pageTitle = "Students";
+$pageTitle = "Users";
 session_start();
 if(isset($_SESSION['username'])){ 
 	include 'init.php';
