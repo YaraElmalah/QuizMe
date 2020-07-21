@@ -343,12 +343,13 @@ elseif ($nav == "Insert") {
 		}
 		//Database Query
 			if(empty($formErrors)){
-				$check = checkRecord('username','users', $username);
+				$check = checkRecord('username','users', "WHERE username = '{$username}'");
 	            if($check == 1){
 		             $error =  "<div class='container'>
-								<div class='alert alert-danger'>The username is already existed</div>
+								<div class='alert alert-danger'>The username is already existed</div>";
+								echo $error;
 								redirectHome('back');
-								</div>";
+								echo "</div>";
 		           
 	            } else{
 	             	//Insert this info into Database 
