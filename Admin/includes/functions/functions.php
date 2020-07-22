@@ -1,4 +1,5 @@
 <?php
+$default = 'quiz';
 /*
 Function to get All Records form specific Table
 $field     = the record that You want to get from the table example: * , Name
@@ -83,7 +84,8 @@ if the table exists it will return 1 and if not existed it will return 0
 */
 function tableExist($myTable){
 	global $connect;
-	$stmt = $connect->prepare("SHOW TABLES FROM quiz");
+	global $default;
+	$stmt = $connect->prepare("SHOW TABLES FROM $default");
 	$stmt->execute();
 	$tables = $stmt->fetchAll();
 	$flag = FALSE;
@@ -108,7 +110,8 @@ function countRecords($col, $table){
 /* Get All the Tables For DB */
 function getAllTables(){
 	global $connect;
-	$stmt = $connect->prepare("SHOW TABLES FROM quiz");
+	global $default;
+	$stmt = $connect->prepare("SHOW TABLES FROM $default");
 	        $stmt->execute();
 			$tables = $stmt->fetchAll();
 			return $tables;

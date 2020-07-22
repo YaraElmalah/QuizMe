@@ -1,7 +1,7 @@
 <?php 
+ob_start();
   include 'init.php';
 session_start();
-ob_start();
  if(isset($_SESSION['students'])){
   	header('location: home.php');
  }
