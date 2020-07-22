@@ -80,7 +80,7 @@ if(isset($_SESSION['students'])){
                     mail($to, $subject, $message);
                 } else{
                     ?>
-                    <div class="alert alert-danger text-center">Please Note That Your Results is not Recorded AS this is not Your First trial</div>
+                    <div class="alert alert-danger text-center"><strong>Please Note That Your Results is not Recorded</strong></div>
                     <?php
                 }
 

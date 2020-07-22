@@ -71,7 +71,7 @@ if(isset($_SESSION['username'])){
 			<div class="col-sm-6">
 				<div class="panel panel-default show-panel">
 				<div class="panel-heading text-capitalize">
-					quizes
+					quizzes
 					<span class="pull-right toggle-show">
 							<i class="fas fa-plus"></i>
 							</span>

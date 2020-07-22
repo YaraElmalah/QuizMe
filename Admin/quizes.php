@@ -1,6 +1,6 @@
 <?php
 ob_start();
-$pageTitle = "Quizes";
+$pageTitle = "Quizzes";
 session_start();
 if(isset($_SESSION['username'])){ 
 	include 'init.php';
@@ -10,7 +10,7 @@ if($nav == 'Main'){
 
 	<div class="container">
 		<div class="header">
-		<h1 class="text-center">Manage Quizes</h1>
+		<h1 class="text-center">Manage Quizzes</h1>
      </div>
 	<a href='quizes.php?nav=submit' class="btn btn-quiz">
     <i class="fas fa-feather-alt"></i> New Quiz</a>
